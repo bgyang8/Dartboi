@@ -1,0 +1,82 @@
+time: 
+  secs: 1669759767
+  nsecs: 477254155
+device: 
+  name: "head_camera"
+  status: 
+    tag: "ready"
+    id: ''
+    detail: "{}"
+ports: []
+signals: 
+  - 
+    name: "camera_streaming"
+    format: "{\"role\":\"output\",\"type\":\"bool\"}"
+    data: "[true]"
+    status: 
+      tag: "ready"
+      id: ''
+      detail: "{}"
+  - 
+    name: "resolution"
+    format: "{\"role\":\"output\",\"type\":\"object\"}"
+    data: "[{\"height\":800,\"width\":1280}]"
+    status: 
+      tag: "ready"
+      id: ''
+      detail: "{}"
+  - 
+    name: "set_exposure"
+    format: "{\"role\":\"output\",\"type\":\"int\"}"
+    data: "[-1]"
+    status: 
+      tag: "ready"
+      id: ''
+      detail: "{}"
+  - 
+    name: "set_flip"
+    format: "{\"role\":\"output\",\"type\":\"bool\"}"
+    data: "[false]"
+    status: 
+      tag: "ready"
+      id: ''
+      detail: "{}"
+  - 
+    name: "set_gain"
+    format: "{\"role\":\"output\",\"type\":\"int\"}"
+    data: "[0]"
+    status: 
+      tag: "ready"
+      id: ''
+      detail: "{}"
+  - 
+    name: "set_mirror"
+    format: "{\"role\":\"output\",\"type\":\"bool\"}"
+    data: "[false]"
+    status: 
+      tag: "ready"
+      id: ''
+      detail: "{}"
+  - 
+    name: "set_window_x"
+    format: "{\"role\":\"output\",\"type\":\"int\"}"
+    data: "[0]"
+    status: 
+      tag: "ready"
+      id: ''
+      detail: "{}"
+  - 
+    name: "set_window_y"
+    format: "{\"role\":\"output\",\"type\":\"int\"}"
+    data: "[0]"
+    status: 
+      tag: "ready"
+      id: ''
+      detail: "{}"
+commands: 
+  - 
+    secs: 1669759756
+    nsecs: 719117879
+responses: 
+  - ''
+---

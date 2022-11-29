@@ -1,0 +1,218 @@
+time: 
+  secs: 1668119811
+  nsecs: 656422317
+commanded: "{\"params\":{\"engine_params\":{\"autoEnroll\":true,\"configurable\":false},\"fps\"\
+  :10,\"height\":800,\"image_path\":\"package:\\/\\/camera_io\\/images\\/ienso\",\"\
+  image_source_id\":\"ienso_ethernet:FE:48:EB:58:03:69\",\"sim_image\":\"Fiducials_marker1.png\"\
+  ,\"tcp_port\":8901,\"width\":1280},\"ports\":{\"set_camera_resolution\":{\"params\"\
+  :{\"do_not_force\":true},\"props\":{\"format\":{\"role\":\"sink\",\"type\":\"object\"\
+  },\"owner\":\"device\",\"rev\":1,\"type\":\"CameraResolution\"}},\"set_camera_stream_state\"\
+  :{\"params\":{\"control\":\"streaming\"},\"props\":{\"format\":{\"role\":\"sink\"\
+  ,\"type\":\"bool\"},\"owner\":\"device\",\"rev\":1,\"type\":\"ControlOnOff\"}},\"\
+  set_exposure\":{\"params\":{\"control\":\"exposure\"},\"props\":{\"format\":{\"\
+  data_type\":\"i16\",\"role\":\"sink\",\"type\":\"int\"},\"owner\":\"device\",\"\
+  rev\":1,\"type\":\"ControlMode\"}},\"set_flip\":{\"params\":{\"control\":\"flip\"\
+  },\"props\":{\"format\":{\"role\":\"sink\",\"type\":\"bool\"},\"owner\":\"device\"\
+  ,\"rev\":1,\"type\":\"ControlOnOff\"}},\"set_gain\":{\"params\":{\"control\":\"\
+  gain\"},\"props\":{\"format\":{\"data_type\":\"i16\",\"role\":\"sink\",\"type\"\
+  :\"int\"},\"owner\":\"device\",\"rev\":1,\"type\":\"ControlMode\"}},\"set_mirror\"\
+  :{\"params\":{\"control\":\"mirror\"},\"props\":{\"format\":{\"role\":\"sink\",\"\
+  type\":\"bool\"},\"owner\":\"device\",\"rev\":1,\"type\":\"ControlOnOff\"}},\"set_window_x\"\
+  :{\"params\":{\"control\":\"window_x\"},\"props\":{\"format\":{\"data_type\":\"\
+  u16\",\"role\":\"sink\",\"type\":\"int\"},\"owner\":\"device\",\"rev\":1,\"type\"\
+  :\"ControlValue\"}},\"set_window_y\":{\"params\":{\"control\":\"window_y\"},\"props\"\
+  :{\"format\":{\"data_type\":\"u16\",\"role\":\"sink\",\"type\":\"int\"},\"owner\"\
+  :\"device\",\"rev\":1,\"type\":\"ControlValue\"}}},\"props\":{\"name\":\"IensoCamera\"\
+  ,\"owner\":\"device\",\"rev\":1,\"type\":\"IensoCameraDevice\"},\"signals\":{\"\
+  camera_streaming\":{\"params\":{\"default\":[false]},\"props\":{\"format\":{\"role\"\
+  :\"output\",\"type\":\"bool\"},\"owner\":\"device\",\"rev\":1,\"sink\":\"set_camera_stream_state\"\
+  ,\"type\":\"IO\"}},\"resolution\":{\"params\":{\"default\":[{\"height\":800,\"width\"\
+  :1280}]},\"props\":{\"format\":{\"role\":\"output\",\"type\":\"object\"},\"owner\"\
+  :\"device\",\"rev\":1,\"sink\":\"set_camera_resolution\",\"type\":\"IO\"}},\"set_exposure\"\
+  :{\"params\":{\"default\":[-1],\"range\":{\"max\":[100],\"min\":[-1]}},\"props\"\
+  :{\"format\":{\"role\":\"output\",\"type\":\"int\"},\"owner\":\"device\",\"rev\"\
+  :1,\"sink\":\"set_exposure\",\"type\":\"RangedIO\"}},\"set_flip\":{\"params\":{\"\
+  default\":[false]},\"props\":{\"format\":{\"role\":\"output\",\"type\":\"bool\"\
+  },\"owner\":\"device\",\"rev\":1,\"sink\":\"set_flip\",\"type\":\"IO\"}},\"set_gain\"\
+  :{\"params\":{\"default\":[0],\"range\":{\"max\":[79],\"min\":[-1]}},\"props\":{\"\
+  format\":{\"role\":\"output\",\"type\":\"int\"},\"owner\":\"device\",\"rev\":1,\"\
+  sink\":\"set_gain\",\"type\":\"RangedIO\"}},\"set_mirror\":{\"params\":{\"default\"\
+  :[false]},\"props\":{\"format\":{\"role\":\"output\",\"type\":\"bool\"},\"owner\"\
+  :\"device\",\"rev\":1,\"sink\":\"set_mirror\",\"type\":\"IO\"}},\"set_window_x\"\
+  :{\"params\":{\"default\":[0]},\"props\":{\"format\":{\"role\":\"output\",\"type\"\
+  :\"int\"},\"owner\":\"device\",\"rev\":1,\"sink\":\"set_window_x\",\"type\":\"IO\"\
+  }},\"set_window_y\":{\"params\":{\"default\":[0]},\"props\":{\"format\":{\"role\"\
+  :\"output\",\"type\":\"int\"},\"owner\":\"device\",\"rev\":1,\"sink\":\"set_window_y\"\
+  ,\"type\":\"IO\"}}}}"
+upgraded: "{\"params\":{\"engine_params\":{\"autoEnroll\":true,\"configurable\":false},\"fps\"\
+  :10,\"height\":800,\"image_path\":\"package:\\/\\/camera_io\\/images\\/ienso\",\"\
+  image_source_id\":\"ienso_ethernet:FE:48:EB:58:03:69\",\"sim_image\":\"Fiducials_marker1.png\"\
+  ,\"tcp_port\":8901,\"width\":1280},\"ports\":{\"set_camera_resolution\":{\"params\"\
+  :{\"do_not_force\":true},\"props\":{\"format\":{\"role\":\"sink\",\"type\":\"object\"\
+  },\"owner\":\"device\",\"rev\":1,\"type\":\"CameraResolution\"}},\"set_camera_stream_state\"\
+  :{\"params\":{\"control\":\"streaming\"},\"props\":{\"format\":{\"role\":\"sink\"\
+  ,\"type\":\"bool\"},\"owner\":\"device\",\"rev\":1,\"type\":\"ControlOnOff\"}},\"\
+  set_exposure\":{\"params\":{\"control\":\"exposure\"},\"props\":{\"format\":{\"\
+  data_type\":\"i16\",\"role\":\"sink\",\"type\":\"int\"},\"owner\":\"device\",\"\
+  rev\":1,\"type\":\"ControlMode\"}},\"set_flip\":{\"params\":{\"control\":\"flip\"\
+  },\"props\":{\"format\":{\"role\":\"sink\",\"type\":\"bool\"},\"owner\":\"device\"\
+  ,\"rev\":1,\"type\":\"ControlOnOff\"}},\"set_gain\":{\"params\":{\"control\":\"\
+  gain\"},\"props\":{\"format\":{\"data_type\":\"i16\",\"role\":\"sink\",\"type\"\
+  :\"int\"},\"owner\":\"device\",\"rev\":1,\"type\":\"ControlMode\"}},\"set_mirror\"\
+  :{\"params\":{\"control\":\"mirror\"},\"props\":{\"format\":{\"role\":\"sink\",\"\
+  type\":\"bool\"},\"owner\":\"device\",\"rev\":1,\"type\":\"ControlOnOff\"}},\"set_window_x\"\
+  :{\"params\":{\"control\":\"window_x\"},\"props\":{\"format\":{\"data_type\":\"\
+  u16\",\"role\":\"sink\",\"type\":\"int\"},\"owner\":\"device\",\"rev\":1,\"type\"\
+  :\"ControlValue\"}},\"set_window_y\":{\"params\":{\"control\":\"window_y\"},\"props\"\
+  :{\"format\":{\"data_type\":\"u16\",\"role\":\"sink\",\"type\":\"int\"},\"owner\"\
+  :\"device\",\"rev\":1,\"type\":\"ControlValue\"}}},\"props\":{\"name\":\"IensoCamera\"\
+  ,\"owner\":\"device\",\"rev\":1,\"type\":\"IensoCameraDevice\"},\"signals\":{\"\
+  camera_streaming\":{\"params\":{\"default\":[false]},\"props\":{\"format\":{\"role\"\
+  :\"output\",\"type\":\"bool\"},\"owner\":\"device\",\"rev\":1,\"sink\":\"set_camera_stream_state\"\
+  ,\"type\":\"IO\"}},\"resolution\":{\"params\":{\"default\":[{\"height\":800,\"width\"\
+  :1280}]},\"props\":{\"format\":{\"role\":\"output\",\"type\":\"object\"},\"owner\"\
+  :\"device\",\"rev\":1,\"sink\":\"set_camera_resolution\",\"type\":\"IO\"}},\"set_exposure\"\
+  :{\"params\":{\"default\":[-1],\"range\":{\"max\":[100],\"min\":[-1]}},\"props\"\
+  :{\"format\":{\"role\":\"output\",\"type\":\"int\"},\"owner\":\"device\",\"rev\"\
+  :1,\"sink\":\"set_exposure\",\"type\":\"RangedIO\"}},\"set_flip\":{\"params\":{\"\
+  default\":[false]},\"props\":{\"format\":{\"role\":\"output\",\"type\":\"bool\"\
+  },\"owner\":\"device\",\"rev\":1,\"sink\":\"set_flip\",\"type\":\"IO\"}},\"set_gain\"\
+  :{\"params\":{\"default\":[0],\"range\":{\"max\":[79],\"min\":[-1]}},\"props\":{\"\
+  format\":{\"role\":\"output\",\"type\":\"int\"},\"owner\":\"device\",\"rev\":1,\"\
+  sink\":\"set_gain\",\"type\":\"RangedIO\"}},\"set_mirror\":{\"params\":{\"default\"\
+  :[false]},\"props\":{\"format\":{\"role\":\"output\",\"type\":\"bool\"},\"owner\"\
+  :\"device\",\"rev\":1,\"sink\":\"set_mirror\",\"type\":\"IO\"}},\"set_window_x\"\
+  :{\"params\":{\"default\":[0]},\"props\":{\"format\":{\"role\":\"output\",\"type\"\
+  :\"int\"},\"owner\":\"device\",\"rev\":1,\"sink\":\"set_window_x\",\"type\":\"IO\"\
+  }},\"set_window_y\":{\"params\":{\"default\":[0]},\"props\":{\"format\":{\"role\"\
+  :\"output\",\"type\":\"int\"},\"owner\":\"device\",\"rev\":1,\"sink\":\"set_window_y\"\
+  ,\"type\":\"IO\"}}}}"
+device: 
+  name: "head_camera"
+  config: "{\"params\":{\"engine_params\":{\"autoEnroll\":true,\"configurable\":false},\"fps\"\
+  :10,\"height\":800,\"image_path\":\"package:\\/\\/camera_io\\/images\\/ienso\",\"\
+  image_source_id\":\"ienso_ethernet:FE:48:EB:58:03:69\",\"sim_image\":\"Fiducials_marker1.png\"\
+  ,\"tcp_port\":8901,\"width\":1280},\"ports\":{\"set_camera_resolution\":{\"params\"\
+  :{\"do_not_force\":true},\"props\":{\"format\":{\"role\":\"sink\",\"type\":\"object\"\
+  },\"owner\":\"device\",\"rev\":1,\"type\":\"CameraResolution\"}},\"set_camera_stream_state\"\
+  :{\"params\":{\"control\":\"streaming\"},\"props\":{\"format\":{\"role\":\"sink\"\
+  ,\"type\":\"bool\"},\"owner\":\"device\",\"rev\":1,\"type\":\"ControlOnOff\"}},\"\
+  set_exposure\":{\"params\":{\"control\":\"exposure\"},\"props\":{\"format\":{\"\
+  data_type\":\"i16\",\"role\":\"sink\",\"type\":\"int\"},\"owner\":\"device\",\"\
+  rev\":1,\"type\":\"ControlMode\"}},\"set_flip\":{\"params\":{\"control\":\"flip\"\
+  },\"props\":{\"format\":{\"role\":\"sink\",\"type\":\"bool\"},\"owner\":\"device\"\
+  ,\"rev\":1,\"type\":\"ControlOnOff\"}},\"set_gain\":{\"params\":{\"control\":\"\
+  gain\"},\"props\":{\"format\":{\"data_type\":\"i16\",\"role\":\"sink\",\"type\"\
+  :\"int\"},\"owner\":\"device\",\"rev\":1,\"type\":\"ControlMode\"}},\"set_mirror\"\
+  :{\"params\":{\"control\":\"mirror\"},\"props\":{\"format\":{\"role\":\"sink\",\"\
+  type\":\"bool\"},\"owner\":\"device\",\"rev\":1,\"type\":\"ControlOnOff\"}},\"set_window_x\"\
+  :{\"params\":{\"control\":\"window_x\"},\"props\":{\"format\":{\"data_type\":\"\
+  u16\",\"role\":\"sink\",\"type\":\"int\"},\"owner\":\"device\",\"rev\":1,\"type\"\
+  :\"ControlValue\"}},\"set_window_y\":{\"params\":{\"control\":\"window_y\"},\"props\"\
+  :{\"format\":{\"data_type\":\"u16\",\"role\":\"sink\",\"type\":\"int\"},\"owner\"\
+  :\"device\",\"rev\":1,\"type\":\"ControlValue\"}}},\"props\":{\"id\":\"\\/io\\/internal_camera\\\
+  /head_camera\",\"name\":\"head_camera\",\"owner\":\"device\",\"rev\":1,\"type\"\
+  :\"IensoCameraDevice\"},\"signals\":{\"camera_streaming\":{\"params\":{\"default\"\
+  :[false]},\"props\":{\"format\":{\"role\":\"output\",\"type\":\"bool\"},\"owner\"\
+  :\"device\",\"rev\":1,\"sink\":\"set_camera_stream_state\",\"type\":\"IO\"}},\"\
+  resolution\":{\"params\":{\"default\":[{\"height\":800,\"width\":1280}]},\"props\"\
+  :{\"format\":{\"role\":\"output\",\"type\":\"object\"},\"owner\":\"device\",\"rev\"\
+  :1,\"sink\":\"set_camera_resolution\",\"type\":\"IO\"}},\"set_exposure\":{\"params\"\
+  :{\"default\":[-1],\"range\":{\"max\":[100],\"min\":[-1]}},\"props\":{\"format\"\
+  :{\"role\":\"output\",\"type\":\"int\"},\"owner\":\"device\",\"rev\":1,\"sink\"\
+  :\"set_exposure\",\"type\":\"RangedIO\"}},\"set_flip\":{\"params\":{\"default\"\
+  :[false]},\"props\":{\"format\":{\"role\":\"output\",\"type\":\"bool\"},\"owner\"\
+  :\"device\",\"rev\":1,\"sink\":\"set_flip\",\"type\":\"IO\"}},\"set_gain\":{\"params\"\
+  :{\"default\":[0],\"range\":{\"max\":[79],\"min\":[-1]}},\"props\":{\"format\":{\"\
+  role\":\"output\",\"type\":\"int\"},\"owner\":\"device\",\"rev\":1,\"sink\":\"set_gain\"\
+  ,\"type\":\"RangedIO\"}},\"set_mirror\":{\"params\":{\"default\":[false]},\"props\"\
+  :{\"format\":{\"role\":\"output\",\"type\":\"bool\"},\"owner\":\"device\",\"rev\"\
+  :1,\"sink\":\"set_mirror\",\"type\":\"IO\"}},\"set_window_x\":{\"params\":{\"default\"\
+  :[0]},\"props\":{\"format\":{\"role\":\"output\",\"type\":\"int\"},\"owner\":\"\
+  device\",\"rev\":1,\"sink\":\"set_window_x\",\"type\":\"IO\"}},\"set_window_y\"\
+  :{\"params\":{\"default\":[0]},\"props\":{\"format\":{\"role\":\"output\",\"type\"\
+  :\"int\"},\"owner\":\"device\",\"rev\":1,\"sink\":\"set_window_y\",\"type\":\"IO\"\
+  }}}}"
+ports: 
+  - 
+    name: "set_camera_resolution"
+    config: "{\"params\":{\"default\":[{}],\"do_not_force\":true},\"props\":{\"format\":{\"role\"\
+  :\"sink\",\"type\":\"object\"},\"name\":\"set_camera_resolution\",\"owner\":\"device\"\
+  ,\"rev\":1,\"type\":\"CameraResolution\"}}"
+  - 
+    name: "set_camera_stream_state"
+    config: "{\"params\":{\"control\":\"streaming\",\"default\":[false]},\"props\":{\"format\"\
+  :{\"role\":\"sink\",\"type\":\"bool\"},\"name\":\"set_camera_stream_state\",\"owner\"\
+  :\"device\",\"rev\":1,\"type\":\"ControlOnOff\"}}"
+  - 
+    name: "set_exposure"
+    config: "{\"params\":{\"control\":\"exposure\",\"default\":[0]},\"props\":{\"format\":{\"\
+  data_type\":\"i16\",\"role\":\"sink\",\"type\":\"int\"},\"name\":\"set_exposure\"\
+  ,\"owner\":\"device\",\"rev\":1,\"type\":\"ControlMode\"}}"
+  - 
+    name: "set_flip"
+    config: "{\"params\":{\"control\":\"flip\",\"default\":[false]},\"props\":{\"format\":{\"\
+  role\":\"sink\",\"type\":\"bool\"},\"name\":\"set_flip\",\"owner\":\"device\",\"\
+  rev\":1,\"type\":\"ControlOnOff\"}}"
+  - 
+    name: "set_gain"
+    config: "{\"params\":{\"control\":\"gain\",\"default\":[0]},\"props\":{\"format\":{\"data_type\"\
+  :\"i16\",\"role\":\"sink\",\"type\":\"int\"},\"name\":\"set_gain\",\"owner\":\"\
+  device\",\"rev\":1,\"type\":\"ControlMode\"}}"
+  - 
+    name: "set_mirror"
+    config: "{\"params\":{\"control\":\"mirror\",\"default\":[false]},\"props\":{\"format\":{\"\
+  role\":\"sink\",\"type\":\"bool\"},\"name\":\"set_mirror\",\"owner\":\"device\"\
+  ,\"rev\":1,\"type\":\"ControlOnOff\"}}"
+  - 
+    name: "set_window_x"
+    config: "{\"params\":{\"control\":\"window_x\",\"default\":[0]},\"props\":{\"format\":{\"\
+  data_type\":\"u16\",\"role\":\"sink\",\"type\":\"int\"},\"name\":\"set_window_x\"\
+  ,\"owner\":\"device\",\"rev\":1,\"type\":\"ControlValue\"}}"
+  - 
+    name: "set_window_y"
+    config: "{\"params\":{\"control\":\"window_y\",\"default\":[0]},\"props\":{\"format\":{\"\
+  data_type\":\"u16\",\"role\":\"sink\",\"type\":\"int\"},\"name\":\"set_window_y\"\
+  ,\"owner\":\"device\",\"rev\":1,\"type\":\"ControlValue\"}}"
+signals: 
+  - 
+    name: "camera_streaming"
+    config: "{\"params\":{\"default\":[false]},\"props\":{\"format\":{\"role\":\"output\",\"type\"\
+  :\"bool\"},\"name\":\"camera_streaming\",\"owner\":\"device\",\"rev\":1,\"sink\"\
+  :\"set_camera_stream_state\",\"type\":\"IO\"}}"
+  - 
+    name: "resolution"
+    config: "{\"params\":{\"default\":[{\"height\":800,\"width\":1280}]},\"props\":{\"format\"\
+  :{\"role\":\"output\",\"type\":\"object\"},\"name\":\"resolution\",\"owner\":\"\
+  device\",\"rev\":1,\"sink\":\"set_camera_resolution\",\"type\":\"IO\"}}"
+  - 
+    name: "set_exposure"
+    config: "{\"params\":{\"default\":[-1],\"range\":{\"max\":[100],\"min\":[-1]}},\"props\":{\"\
+  format\":{\"role\":\"output\",\"type\":\"int\"},\"name\":\"set_exposure\",\"owner\"\
+  :\"device\",\"rev\":1,\"sink\":\"set_exposure\",\"type\":\"RangedIO\"}}"
+  - 
+    name: "set_flip"
+    config: "{\"params\":{\"default\":[false]},\"props\":{\"format\":{\"role\":\"output\",\"type\"\
+  :\"bool\"},\"name\":\"set_flip\",\"owner\":\"device\",\"rev\":1,\"sink\":\"set_flip\"\
+  ,\"type\":\"IO\"}}"
+  - 
+    name: "set_gain"
+    config: "{\"params\":{\"default\":[0],\"range\":{\"max\":[79],\"min\":[-1]}},\"props\":{\"\
+  format\":{\"role\":\"output\",\"type\":\"int\"},\"name\":\"set_gain\",\"owner\"\
+  :\"device\",\"rev\":1,\"sink\":\"set_gain\",\"type\":\"RangedIO\"}}"
+  - 
+    name: "set_mirror"
+    config: "{\"params\":{\"default\":[false]},\"props\":{\"format\":{\"role\":\"output\",\"type\"\
+  :\"bool\"},\"name\":\"set_mirror\",\"owner\":\"device\",\"rev\":1,\"sink\":\"set_mirror\"\
+  ,\"type\":\"IO\"}}"
+  - 
+    name: "set_window_x"
+    config: "{\"params\":{\"default\":[0]},\"props\":{\"format\":{\"role\":\"output\",\"type\"\
+  :\"int\"},\"name\":\"set_window_x\",\"owner\":\"device\",\"rev\":1,\"sink\":\"set_window_x\"\
+  ,\"type\":\"IO\"}}"
+  - 
+    name: "set_window_y"
+    config: "{\"params\":{\"default\":[0]},\"props\":{\"format\":{\"role\":\"output\",\"type\"\
+  :\"int\"},\"name\":\"set_window_y\",\"owner\":\"device\",\"rev\":1,\"sink\":\"set_window_y\"\
+  ,\"type\":\"IO\"}}"
+---
