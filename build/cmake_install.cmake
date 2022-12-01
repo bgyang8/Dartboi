@@ -134,6 +134,7 @@ if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   include("/home/cc/ee106a/fa22/class/ee106a-abl/Dartboi/build/ar_track_alvar/ar_track_alvar_msgs/cmake_install.cmake")
   include("/home/cc/ee106a/fa22/class/ee106a-abl/Dartboi/build/ar_track_alvar/ar_track_alvar/cmake_install.cmake")
   include("/home/cc/ee106a/fa22/class/ee106a-abl/Dartboi/build/tracking/cmake_install.cmake")
+  include("/home/cc/ee106a/fa22/class/ee106a-abl/Dartboi/build/move_arm/cmake_install.cmake")
 
 endif()
 

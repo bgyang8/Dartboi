@@ -11,5 +11,6 @@ export CMAKE_PREFIX_PATH="/home/cc/ee106a/fa22/class/ee106a-abl/Dartboi/devel:$C
 export LD_LIBRARY_PATH="/home/cc/ee106a/fa22/class/ee106a-abl/Dartboi/devel/lib:$LD_LIBRARY_PATH"
 export PKG_CONFIG_PATH="/home/cc/ee106a/fa22/class/ee106a-abl/Dartboi/devel/lib/pkgconfig:$PKG_CONFIG_PATH"
 export PWD='/home/cc/ee106a/fa22/class/ee106a-abl/Dartboi/build'
+export PYTHONPATH="/home/cc/ee106a/fa22/class/ee106a-abl/Dartboi/devel/lib/python3/dist-packages:$PYTHONPATH"
 export ROSLISP_PACKAGE_DIRECTORIES="/home/cc/ee106a/fa22/class/ee106a-abl/Dartboi/devel/share/common-lisp:$ROSLISP_PACKAGE_DIRECTORIES"
 export ROS_PACKAGE_PATH="/home/cc/ee106a/fa22/class/ee106a-abl/Dartboi/src:$ROS_PACKAGE_PATH"
