@@ -121,7 +121,7 @@ if __name__ == '__main__':
     #Run this program as a new node in the ROS computation graph 
     #called /turtlebot_controller.
     frame1 = 'head_camera'
-    frame2 = 'ar_marker_6'
+    frame2 = 'ar_marker_4'
     traj_dist = 1  # [meters]
     name = 'ar_transform'
     trans_node(name, frame1, frame2, traj_dist)
