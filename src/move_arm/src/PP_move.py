@@ -40,37 +40,37 @@ def moveArm(target_twist):
     pos_xyz = [target_twist.linear.x, target_twist.linear.y, target_twist.linear.z]
     ori_xyzw = get_quaternion_from_euler(target_twist.angular.x, target_twist.angular.y, target_twist.angular.z)
 
-    # 
+    
     # Add the obstacle to the planning scene here
-    # obs = PoseStamped()
-    # obs.header.frame_id = "base"
+    obs = PoseStamped()
+    obs.header.frame_id = "base"
 
-    # #x, y, and z position
-    # obs.pose.position.x = 0.5
-    # obs.pose.position.y = 0.0
-    # obs.pose.position.z = 0.0
+    #x, y, and z position
+    obs.pose.position.x = 0.5
+    obs.pose.position.y = 0.0
+    obs.pose.position.z = -0.3
 
-    # #Orientation as a quaternion
-    # obs.pose.orientation.x = 0.0
-    # obs.pose.orientation.y = 0.0
-    # obs.pose.orientation.z = 0.0
-    # obs.pose.orientation.w = 1.0
-    # planner.add_box_obstacle(np.array([0.4,1.2,0.1]), "aero_andrew", obs)
+    #Orientation as a quaternion
+    obs.pose.orientation.x = 0.0
+    obs.pose.orientation.y = 0.0
+    obs.pose.orientation.z = 0.0
+    obs.pose.orientation.w = 1.0
+    planner.add_box_obstacle(np.array([0.4,1.2,0.1]), "aero_andrew", obs)
 
-    # obs2 = PoseStamped()
-    # obs2.header.frame_id = "base"
+    obs2 = PoseStamped()
+    obs2.header.frame_id = "base"
 
-    # #x, y, and z position
-    # obs2.pose.position.x = -0.25
-    # obs2.pose.position.y = 0.0
-    # obs2.pose.position.z = 0.0
+    #x, y, and z position
+    obs2.pose.position.x = -0.25
+    obs2.pose.position.y = 0.0
+    obs2.pose.position.z = 0.0
 
-    # #Orientation as a quaternion
-    # obs2.pose.orientation.x = 0.0
-    # obs2.pose.orientation.y = 0.0
-    # obs2.pose.orientation.z = 0.0
-    # obs2.pose.orientation.w = 1.0
-    # planner.add_box_obstacle(np.array([0.1,1.2,1.2]), "big_bryan", obs2)
+    #Orientation as a quaternion
+    obs2.pose.orientation.x = 0.0
+    obs2.pose.orientation.y = 0.0
+    obs2.pose.orientation.z = 0.0
+    obs2.pose.orientation.w = 1.0
+    planner.add_box_obstacle(np.array([0.1,1.2,1.2]), "big_bryan", obs2)
 
 
     # #Create a path constraint for the arm
@@ -87,40 +87,40 @@ def moveArm(target_twist):
     user_input = 'n'
 
     while not rospy.is_shutdown():
+        try:
+            goal = PoseStamped()
+            goal.header.frame_id = "base"
+            
+            #x, y, and z position
+            goal.pose.position.x = pos_xyz[0]
+            goal.pose.position.y = pos_xyz[1]
+            goal.pose.position.z = pos_xyz[2]
 
-        while not rospy.is_shutdown():
-            try:
-                goal = PoseStamped()
-                goal.header.frame_id = "base"
-                
-                #x, y, and z position
-                goal.pose.position.x = pos_xyz[0]
-                goal.pose.position.y = pos_xyz[1]
-                goal.pose.position.z = pos_xyz[2]
+            # #Orientation as a quaternion
+            # goal.pose.orientation.x = ori_xyzw[0]
+            # goal.pose.orientation.y = ori_xyzw[1]
+            # goal.pose.orientation.z = ori_xyzw[2]
+            # goal.pose.orientation.w = ori_xyzw[3]
 
-                # #Orientation as a quaternion
-                goal.pose.orientation.x = ori_xyzw[0]
-                goal.pose.orientation.y = ori_xyzw[1]
-                goal.pose.orientation.z = ori_xyzw[2]
-                goal.pose.orientation.w = ori_xyzw[3]
-
-                # goal.pose.orientation.x = 0.0
-                # goal.pose.orientation.y = 1.0
-                # goal.pose.orientation.z = 0.0
-                # goal.pose.orientation.w = 0.0
+            goal.pose.orientation.x = 0.0
+            goal.pose.orientation.y = 1.0
+            goal.pose.orientation.z = 0.0
+            goal.pose.orientation.w = 0.0
 
 
-                # Might have to edit this . . . 
-                plan = planner.plan_to_pose(goal, [orien_const])
-                user_input = input("Enter 'y' if the trajectory looks safe on RVIZ")
-                if user_input == 'y':
-                    if not controller.execute_plan(plan[1]): 
-                        raise Exception("Execution failed")
-            except Exception as e:
-                print(e)
-                traceback.print_exc()
-            else:
-                break
+            # Might have to edit this . . . 
+            plan = planner.plan_to_pose(goal, [orien_const])
+            user_input = input("Enter 'y' if the trajectory looks safe on RVIZ")
+            if user_input == 'y':
+                if not controller.execute_plan(plan[1]): 
+                    raise Exception("Execution failed")
+            elif user_input == 'q':
+                break;
+        except Exception as e:
+            print(e)
+            traceback.print_exc()
+        else:
+            break
 
 
 def listener():

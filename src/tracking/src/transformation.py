@@ -55,10 +55,17 @@ def get_transform(frame1, frame2, traj_dist):
             # Experimentally, PITCH is the horizontal "yaw" of the target
             # Flat is 0 deg, ccw is positive, cw is negative
             theta = pitch
-    
-            x_d = traj_dist * np.cos(theta)
-            y_d = y
-            z_d = z - traj_dist * np.sin(theta)
+            
+            print([x,y,z,theta])
+            
+            x_d = z - traj_dist * np.cos(theta)
+            y_d = x + 0.2
+            z_d = y - traj_dist * np.sin(theta)
+
+            ### OLD wrong coord transform ###
+            # x_d = x - traj_dist * np.cos(theta)
+            # y_d = y
+            # z_d = z - traj_dist * np.sin(theta)
     
             r_des = 0
             p_des = 0

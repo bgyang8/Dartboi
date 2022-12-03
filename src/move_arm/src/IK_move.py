@@ -56,18 +56,18 @@ def moveArm(target_twist):
     start_request.ik_request.pose_stamped.pose.position.x = pos_xyz[0]
     start_request.ik_request.pose_stamped.pose.position.y = pos_xyz[1]
     start_request.ik_request.pose_stamped.pose.position.z = pos_xyz[2]  
-    start_request.ik_request.pose_stamped.pose.orientation.x = ori_xyzw[0]
-    start_request.ik_request.pose_stamped.pose.orientation.y = ori_xyzw[1]
-    start_request.ik_request.pose_stamped.pose.orientation.z = ori_xyzw[2]
-    start_request.ik_request.pose_stamped.pose.orientation.w = ori_xyzw[3]
+    # start_request.ik_request.pose_stamped.pose.orientation.x = ori_xyzw[0]
+    # start_request.ik_request.pose_stamped.pose.orientation.y = ori_xyzw[1]
+    # start_request.ik_request.pose_stamped.pose.orientation.z = ori_xyzw[2]
+    # start_request.ik_request.pose_stamped.pose.orientation.w = ori_xyzw[3]
 
     # start_request.ik_request.pose_stamped.pose.position.x = 0.5
-    # start_request.ik_request.pose_stamped.pose.position.y = 0.5
-    # start_request.ik_request.pose_stamped.pose.position.z = 0.0        
-    # start_request.ik_request.pose_stamped.pose.orientation.x = 0.0
-    # start_request.ik_request.pose_stamped.pose.orientation.y = 1.0
-    # start_request.ik_request.pose_stamped.pose.orientation.z = 0.0
-    # start_request.ik_request.pose_stamped.pose.orientation.w = 0.0
+    # start_request.ik_request.pose_stamped.pose.position.y = 0
+    # start_request.ik_request.pose_stamped.pose.position.z = 0.5        
+    start_request.ik_request.pose_stamped.pose.orientation.x = 0.0
+    start_request.ik_request.pose_stamped.pose.orientation.y = 1.0
+    start_request.ik_request.pose_stamped.pose.orientation.z = 0.0
+    start_request.ik_request.pose_stamped.pose.orientation.w = 0.0
 
     
     try: 
