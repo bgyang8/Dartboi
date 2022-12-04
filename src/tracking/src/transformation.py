@@ -20,7 +20,7 @@ def get_transform(frame1, frame2, traj_dist):
     to go to a position denoted by target_frame
     Inputs:
     - frame1: the tf frame of the AR tag on your turtlebot
-    - target_frame: the tf frame of the target AR tag
+    - frame2: the tf frame of the target AR tag
     """
   
     #Create a publisher and a tf buffer, which is primed with a tf listener
@@ -128,7 +128,7 @@ if __name__ == '__main__':
     #Run this program as a new node in the ROS computation graph 
     #called /turtlebot_controller.
     frame1 = 'head_camera'
-    frame2 = 'ar_marker_4'
+    frame2 = 'ar_marker_0'
     traj_dist = 1  # [meters]
     name = 'ar_transform'
     trans_node(name, frame1, frame2, traj_dist)

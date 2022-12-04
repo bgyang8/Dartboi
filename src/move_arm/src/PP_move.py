@@ -40,7 +40,6 @@ def moveArm(target_twist):
     pos_xyz = [target_twist.linear.x, target_twist.linear.y, target_twist.linear.z]
     ori_xyzw = get_quaternion_from_euler(target_twist.angular.x, target_twist.angular.y, target_twist.angular.z)
 
-    
     # Add the obstacle to the planning scene here
     obs = PoseStamped()
     obs.header.frame_id = "base"
@@ -76,13 +75,13 @@ def moveArm(target_twist):
     # #Create a path constraint for the arm
     # #UNCOMMENT FOR THE ORIENTATION CONSTRAINTS PART
     orien_const = OrientationConstraint()
-    orien_const.link_name = "right_gripper_tip";
-    orien_const.header.frame_id = "base";
-    orien_const.orientation.y = -1.0;
-    orien_const.absolute_x_axis_tolerance = 0.5;
-    orien_const.absolute_y_axis_tolerance = 0.5;
-    orien_const.absolute_z_axis_tolerance = 0.5;
-    orien_const.weight = 1.0;
+    orien_const.link_name = "right_gripper_tip"
+    orien_const.header.frame_id = "base"
+    orien_const.orientation.y = -1.0
+    orien_const.absolute_x_axis_tolerance = 0.5
+    orien_const.absolute_y_axis_tolerance = 0.5
+    orien_const.absolute_z_axis_tolerance = 0.5
+    orien_const.weight = 1.0
 
     user_input = 'n'
 
@@ -115,17 +114,15 @@ def moveArm(target_twist):
                 if not controller.execute_plan(plan[1]): 
                     raise Exception("Execution failed")
             elif user_input == 'q':
-                break;
+                break
         except Exception as e:
             print(e)
             traceback.print_exc()
         else:
             break
 
-
 def listener():
     rospy.Subscriber('launch_des', Twist, moveArm)
-    # rospy.Subscriber('launch_des', Twist, callback)
     rospy.spin()
 
 def callback(message):
@@ -149,6 +146,7 @@ def get_quaternion_from_euler(r, p, y):
   qw = np.cos(r/2) * np.cos(p/2) * np.cos(y/2) + np.sin(r/2) * np.sin(p/2) * np.sin(y/2)
  
   return [qx, qy, qz, qw]
+
 
 if __name__ == '__main__':
     rospy.init_node('listener', anonymous=True)

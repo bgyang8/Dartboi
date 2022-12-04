@@ -57,7 +57,6 @@ def main():
         holder = input("help me")
         target_joint_angles[i] = float(holder)
     
-
     tolerance = 0.1
     consts = []
     for i in range(len(arm_joint_names)):
