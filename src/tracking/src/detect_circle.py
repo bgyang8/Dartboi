@@ -7,6 +7,8 @@ from sensor_msgs.msg import Image
 import message_filters
 import rospy
 
+from tracking.transformation import get_transform
+
 def img_callback(image_head):
 	bridge = CvBridge()
 
@@ -37,31 +39,24 @@ def img_callback(image_head):
 			cv.circle(cur_image_head, center, radius, (255, 0, 255), 3)
 
 	cv.imshow("detected circles", cur_image_head)
+	
+	traj_dist = 1  # [meters]
+	head_camera_frame = 'head_camera'
+	circle_frame = ... # TODO: find frame of circle center
+	get_transform(head_camera_frame, circle_frame, traj_dist)
+	
 	cv.waitKey(0)
 
-"""Returns the x, y, and radius of the circles in the image given"""
-"""Inputs:  img -- picture"""
-"""			threshold -- int image threshold"""
-"""			minmax -- tuple smallest and largest circles to detect"""
-"""			minmax -- tuple thresholds of canny edge detector"""
 def get_circles(img, threshold, minmax, cannythresh):
-
-	# Turn image to grayscale
-	# gray = cv.cvtColor(img, cv.COLOR_BGR2GRAY)
+	"""
+	Returns the x, y, and radius of the circles in the image given
+	Inputs: img -- picture
+	 		threshold -- int image threshold
+	 		minmax -- tuple smallest and largest circles to detect
+	 		minmax -- tuple thresholds of canny edge detector
+	"""
 	gray = img
-	# Blur the image
-	# gray = cv.medianBlur(gray, 5)
-
-	# Threshold the image
-	# for i in range(len(gray)):
-	# 	for j in range(len(gray[0])):
-	# 		if gray[i][j] > threshold:
-	# 			gray[i][j] = 255
-	# 		else:
-	# 			gray[i][j] = 0
-
 	rows = gray.shape[0]
-	# Dist between possible circle centers (want this to be big)
 	mindist = rows
 
 	circles = cv.HoughCircles(gray, cv.HOUGH_GRADIENT, 1, mindist,
@@ -70,17 +65,13 @@ def get_circles(img, threshold, minmax, cannythresh):
 
 	return circles
 
-
 def listener():
     rospy.Subscriber('/io/internal_camera/head_camera/image_raw', Twist, get_circles)
     rospy.spin()
 
 
 if __name__ == "__main__":	
-	# img_name = "target1.jpg"
-	# src = cv.imread(img_name)
-
-	rospy.init_node('image_converter', anonymous=True)
+	rospy.init_node('track_target', anonymous=True)
 	image_sub_head = message_filters.Subscriber("/io/internal_camera/head_camera/image_raw", Image)
 	ts = message_filters.TimeSynchronizer([image_sub_head], 1)
 	ts.registerCallback(img_callback)
