@@ -30,19 +30,65 @@ def get_transform(frame1, frame2, traj_dist):
     
     # Create a timer object that will sleep long enough to result in
     # a 10Hz publishing rate
+    r = rospy.Rate(100) # 100hz
+    
+    num_samples = 750
+    i = 0
+    x_ref = 0
+    y_ref = 0
+    z_ref = 0
+    while (not rospy.is_shutdown()) and (i < num_samples):
+        try:
+            trans = tfBuffer.lookup_transform(frame2, frame1, rospy.Time())
+            x = trans.transform.translation.x
+            y = trans.transform.translation.y
+            z = trans.transform.translation.z
+
+            x_ref += x / num_samples
+            y_ref += y / num_samples
+            z_ref += z / num_samples
+            
+            if ~ (num_samples % 50):
+                print(num_samples)
+
+            i += 1
+        
+        except (tf2_ros.LookupException, tf2_ros.ConnectivityException, tf2_ros.ExtrapolationException):
+            pass
+        
+        # Use our rate object to sleep until it is time to publish again
+        r.sleep()
+        
+    epsilon = 0.1 
     r = rospy.Rate(10) # 10hz
-  
+
     # Loop until the node is killed with Ctrl-C, traj_dist
     while not rospy.is_shutdown():
         try:
             # The transform of the target with respect to the head camera
             trans = tfBuffer.lookup_transform(frame2, frame1, rospy.Time())
+            trans_ref = tfBuffer.lookup_transform('head_camera', 'base', rospy.Time())
+
+            quat_ref = trans_ref.transform.rotation
+
+            rref, pref, yref = quat_to_rpy(quat_ref)
             
             # Process trans to get your state error
             x = trans.transform.translation.x
             y = trans.transform.translation.y
             z = trans.transform.translation.z
-    
+
+            within_eps = (abs(x_ref - x) < epsilon) \
+                     and (abs(y_ref - y) < epsilon) \
+                     and (abs(z_ref - z) < epsilon)
+            
+            if not within_eps:
+                continue
+            else:
+                x_ref = x
+                y_ref = y
+                z_ref = z
+
             quat = trans.transform.rotation
     
             roll, pitch, yaw = quat_to_rpy(quat)
@@ -54,13 +100,15 @@ def get_transform(frame1, frame2, traj_dist):
     
             # Experimentally, PITCH is the horizontal "yaw" of the target
             # Flat is 0 deg, ccw is positive, cw is negative
-            theta = pitch
+            theta = roll
             
             print([x,y,z,theta])
+            #print([roll, pitch, yaw])
+            #print([rref, pref, yref])
             
-            x_d = z - traj_dist * np.cos(theta)
-            y_d = x + 0.2
-            z_d = y - traj_dist * np.sin(theta)
+            x_d = z - traj_dist #* np.cos(theta)
+            y_d = x # - traj_dist * np.sin(theta)
+            z_d = y
 
             ### OLD wrong coord transform ###
             # x_d = x - traj_dist * np.cos(theta)
@@ -127,7 +175,7 @@ if __name__ == '__main__':
   
     #Run this program as a new node in the ROS computation graph 
     #called /turtlebot_controller.
-    frame1 = 'head_camera'
+    frame1 = 'base' #'head_camera'
     frame2 = 'ar_marker_0'
     traj_dist = 1  # [meters]
     name = 'ar_transform'
