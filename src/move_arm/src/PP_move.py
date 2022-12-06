@@ -28,9 +28,9 @@ def moveArm(target_twist):
 
     planner = PathPlanner("right_arm")
 
-    Kp = 0.2 * np.array([0.4, 2, 1.7, 1.5, 2, 2, 3])
-    Kd = 0.01 * np.array([2, 1, 2, 0.5, 0.8, 0.8, 0.8])
-    Ki = 0.01 * np.array([1.4, 1.4, 1.4, 1, 0.6, 0.6, 0.6])
+    Kp = 1.0 * np.array([0.4, 2, 1.7, 1.5, 2, 2, 3])
+    Kd = 0.05 * np.array([2, 1, 2, 0.5, 0.8, 0.8, 0.8])
+    Ki = 0.05 * np.array([1.4, 1.4, 1.4, 1, 0.6, 0.6, 0.6])
     Kw = np.array([0.9, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9])
 
     controller = Controller(Kp, Kd, Ki, Kw, Limb("right"))

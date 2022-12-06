@@ -12,9 +12,11 @@ import sys
 import numpy as np
 from geometry_msgs.msg import Twist, Vector3
 
+import time
+
 from geometry_msgs.msg import Twist
 
-def get_transform(frame1, frame2, traj_dist):
+def get_transform(frame1, frame2, traj_dist, max_height):
     """
     Controls a turtlebot whose position is denoted by frame1,
     to go to a position denoted by target_frame
@@ -28,8 +30,7 @@ def get_transform(frame1, frame2, traj_dist):
     tfBuffer = tf2_ros.Buffer()
     tfListener = tf2_ros.TransformListener(tfBuffer)
     
-    # Create a timer object that will sleep long enough to result in
-    # a 10Hz publishing rate
+    ############################## Making Reference ##############################
     r = rospy.Rate(100) # 100hz
     
     num_samples = 750
@@ -44,12 +45,16 @@ def get_transform(frame1, frame2, traj_dist):
             y = trans.transform.translation.y
             z = trans.transform.translation.z
 
+            if y >= max_height:
+                print(y)
+                continue
+
             x_ref += x / num_samples
             y_ref += y / num_samples
             z_ref += z / num_samples
             
-            if ~ (num_samples % 50):
-                print(num_samples)
+            if ~ (i % 50):
+                print(i)
 
             i += 1
         
@@ -58,8 +63,12 @@ def get_transform(frame1, frame2, traj_dist):
         
         # Use our rate object to sleep until it is time to publish again
         r.sleep()
-        
-    epsilon = 0.1 
+    ###############################################################################
+    
+    print(f'REFERENCE: {x_ref, y_ref, z_ref}')
+    # time.sleep(5)
+
+    epsilon = 0.1
     r = rospy.Rate(10) # 10hz
 
     # Loop until the node is killed with Ctrl-C, traj_dist
@@ -67,11 +76,11 @@ def get_transform(frame1, frame2, traj_dist):
         try:
             # The transform of the target with respect to the head camera
             trans = tfBuffer.lookup_transform(frame2, frame1, rospy.Time())
-            trans_ref = tfBuffer.lookup_transform('head_camera', 'base', rospy.Time())
+            # trans_ref = tfBuffer.lookup_transform('head_camera', 'base', rospy.Time())
 
-            quat_ref = trans_ref.transform.rotation
+            # quat_ref = trans_ref.transform.rotation
 
-            rref, pref, yref = quat_to_rpy(quat_ref)
+            # rref, pref, yref = quat_to_rpy(quat_ref)
             
             # Process trans to get your state error
             x = trans.transform.translation.x
@@ -100,7 +109,7 @@ def get_transform(frame1, frame2, traj_dist):
     
             # Experimentally, PITCH is the horizontal "yaw" of the target
             # Flat is 0 deg, ccw is positive, cw is negative
-            theta = roll
+            theta = yaw
             
             print([x,y,z,theta])
             #print([roll, pitch, yaw])
@@ -160,11 +169,11 @@ def quat_to_rpy(q):
 
 
 """Get transformations between frame1 (reference) and frame2 (target)"""
-def trans_node(name, frame1, frame2, traj_dist, anonymous=True):
+def trans_node(name, frame1, frame2, traj_dist, max_height, anonymous=True):
     rospy.init_node(name)
 
     try:
-        get_transform(frame1, frame2, traj_dist)
+        get_transform(frame1, frame2, traj_dist, max_height)
     except rospy.ROSInterruptException:
         pass
 
@@ -178,6 +187,7 @@ if __name__ == '__main__':
     frame1 = 'base' #'head_camera'
     frame2 = 'ar_marker_0'
     traj_dist = 1  # [meters]
+    max_height = 0.8 
     name = 'ar_transform'
-    trans_node(name, frame1, frame2, traj_dist)
+    trans_node(name, frame1, frame2, traj_dist, max_height)
   
