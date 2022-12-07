@@ -28,7 +28,7 @@ def moveArm(target_twist):
 
     planner = PathPlanner("right_arm")
 
-    Kp = 1.0 * np.array([0.4, 2, 1.7, 1.5, 2, 2, 3])
+    Kp = 1 * np.array([0.4, 2, 1.7, 1.5, 2, 2, 3])
     Kd = 0.05 * np.array([2, 1, 2, 0.5, 0.8, 0.8, 0.8])
     Ki = 0.05 * np.array([1.4, 1.4, 1.4, 1, 0.6, 0.6, 0.6])
     Kw = np.array([0.9, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9])
@@ -83,6 +83,12 @@ def moveArm(target_twist):
     orien_const.absolute_z_axis_tolerance = 0.5
     orien_const.weight = 1.0
 
+    roll = 0
+    pitch = 7*np.pi/8
+    yaw = 0
+
+    xyzw = get_quaternion_from_euler(roll, pitch, yaw)
+
     user_input = 'n'
 
     while not rospy.is_shutdown():
@@ -95,20 +101,20 @@ def moveArm(target_twist):
             goal.pose.position.y = pos_xyz[1]
             goal.pose.position.z = pos_xyz[2]
 
-            # #Orientation as a quaternion
-            # goal.pose.orientation.x = ori_xyzw[0]
-            # goal.pose.orientation.y = ori_xyzw[1]
-            # goal.pose.orientation.z = ori_xyzw[2]
-            # goal.pose.orientation.w = ori_xyzw[3]
+            goal.pose.orientation.x = xyzw[0]
+            goal.pose.orientation.y = xyzw[1]
+            goal.pose.orientation.z = xyzw[2]
+            goal.pose.orientation.w = xyzw[3]
 
-            goal.pose.orientation.x = 0.0
-            goal.pose.orientation.y = 1.0
-            goal.pose.orientation.z = 0.0
-            goal.pose.orientation.w = 0.0
+            # goal.pose.orientation.x = 0.0
+            # goal.pose.orientation.y = 1.0
+            # goal.pose.orientation.z = 0.0
+            # goal.pose.orientation.w = 0.0
 
 
-            # Might have to edit this . . . 
-            plan = planner.plan_to_pose(goal, [orien_const])
+            # NOTE!
+            #plan = planner.plan_to_pose(goal, [orien_const])
+            plan = planner.plan_to_pose(goal, [])
             user_input = input("Enter 'y' if the trajectory looks safe on RVIZ")
             if user_input == 'y':
                 if not controller.execute_plan(plan[1]): 

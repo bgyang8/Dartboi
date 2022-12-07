@@ -40,6 +40,7 @@ def get_transform(frame1, frame2, traj_dist, max_height):
     z_ref = 0
     while (not rospy.is_shutdown()) and (i < num_samples):
         try:
+
             trans = tfBuffer.lookup_transform(frame2, frame1, rospy.Time())
             x = trans.transform.translation.x
             y = trans.transform.translation.y
@@ -47,19 +48,28 @@ def get_transform(frame1, frame2, traj_dist, max_height):
 
             if y >= max_height:
                 print(y)
-                continue
+            
+            if i % 50 == 0 :
+                print(i)
 
             x_ref += x / num_samples
             y_ref += y / num_samples
             z_ref += z / num_samples
             
-            if ~ (i % 50):
-                print(i)
-
             i += 1
         
         except (tf2_ros.LookupException, tf2_ros.ConnectivityException, tf2_ros.ExtrapolationException):
             pass
+        # except tf2_ros.LookupException:
+        #     print('LookupExcept')
+        #     pass
+        # except tf2_ros.ConnectivityException:
+        #     print('ConnectivityException')
+        #     pass
+        # except tf2_ros.ExtrapolationException:
+        #     print('ExtrapolationException')
+        #     pass
+        
         
         # Use our rate object to sleep until it is time to publish again
         r.sleep()
@@ -68,10 +78,9 @@ def get_transform(frame1, frame2, traj_dist, max_height):
     print(f'REFERENCE: {x_ref, y_ref, z_ref}')
     # time.sleep(5)
 
-    epsilon = 0.1
+    epsilon = 0.2
     r = rospy.Rate(10) # 10hz
 
-    # Loop until the node is killed with Ctrl-C, traj_dist
     while not rospy.is_shutdown():
         try:
             # The transform of the target with respect to the head camera
@@ -115,9 +124,11 @@ def get_transform(frame1, frame2, traj_dist, max_height):
             #print([roll, pitch, yaw])
             #print([rref, pref, yref])
             
+            # What if:
+            # x_d = 0.8
             x_d = z - traj_dist #* np.cos(theta)
             y_d = x # - traj_dist * np.sin(theta)
-            z_d = y
+            z_d = y + 2
 
             ### OLD wrong coord transform ###
             # x_d = x - traj_dist * np.cos(theta)
@@ -136,6 +147,12 @@ def get_transform(frame1, frame2, traj_dist, max_height):
             launch_twist.angular.x = r_des
             launch_twist.angular.y = p_des
             launch_twist.angular.z = y_des
+            # launch_twist.linear.x = 0.5   #NOTE
+            # launch_twist.linear.y = 0.5   #NOTE
+            # launch_twist.linear.z = 0     #NOTE
+            # launch_twist.angular.x = 0    #NOTE
+            # launch_twist.angular.y = 0    #NOTE
+            # launch_twist.angular.z = 0    #NOTE
             
             pub.publish(launch_twist)
             print(launch_twist)
@@ -145,7 +162,6 @@ def get_transform(frame1, frame2, traj_dist, max_height):
         
         # Use our rate object to sleep until it is time to publish again
         r.sleep()
-  
   
 ""  "Get rpy from Quaternion"""
 def quat_to_rpy(q):
@@ -186,8 +202,8 @@ if __name__ == '__main__':
     #called /turtlebot_controller.
     frame1 = 'base' #'head_camera'
     frame2 = 'ar_marker_0'
-    traj_dist = 1  # [meters]
-    max_height = 0.8 
+    traj_dist = 3.5  # [meters]
+    max_height = 0.9
     name = 'ar_transform'
     trans_node(name, frame1, frame2, traj_dist, max_height)
   
