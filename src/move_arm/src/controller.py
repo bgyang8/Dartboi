@@ -66,14 +66,14 @@ class Controller(object):
         self._Kw = Kw
 
         self._LastError = np.zeros(len(Kd))
-        self._LastTime = 0;
+        self._LastTime = 0
         self._IntError = np.zeros(len(Ki))
         self._ring_buff_capacity = 3
         self._ring_buff = deque([], self._ring_buff_capacity)
 
         self._path = RobotTrajectory()
-        self._curIndex = 0;
-        self._maxIndex = 0;
+        self._curIndex = 0
+        self._maxIndex = 0
 
         self._limb = limb
 
@@ -261,7 +261,7 @@ class Controller(object):
         ###################### YOUR CODE HERE #########################
 
         # Note, you should load the Kp, Ki, Kd, and Kw constants with
-        # self._Kp
+        # self._s
         # and so on. This is better practice than hard-coding
 
         u = u_ff + self._Kp*error + self._Kd*ed + self._Ki*self._IntError 
