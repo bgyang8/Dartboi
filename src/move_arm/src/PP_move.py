@@ -23,21 +23,11 @@ except ImportError:
     pass
     
 def moveArm(target_twist):
-    """
-    Main Script
-    """
 
-    # Make sure that you've looked at and understand path_planner.py before starting
-
-    # Close the right gripper
     right_gripper = robot_gripper.Gripper('right_gripper')
-    print('closing')
-    right_gripper.close()
-    rospy.sleep(1.0)
-
     planner = PathPlanner("right_arm")
 
-    Kp = 1 * np.array([0.4, 2, 1.7, 1.5, 2, 2, 3])
+    Kp = 0.9 * np.array([0.4, 2, 1.7, 1.5, 2, 2, 3])
     Kd = 0.05 * np.array([2, 1, 2, 0.5, 0.8, 0.8, 0.8])
     Ki = 0.05 * np.array([1.4, 1.4, 1.4, 1, 0.6, 0.6, 0.6])
     Kw = np.array([0.9, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9])
@@ -96,8 +86,8 @@ def moveArm(target_twist):
     orien_const.weight = 1.0
 
     roll = 0
-    pitch = 7*np.pi/8
-    yaw = 0
+    pitch = target_twist.angular.y
+    yaw = -np.pi/60
 
     xyzw = get_quaternion_from_euler(roll, pitch, yaw)
 
@@ -131,20 +121,20 @@ def moveArm(target_twist):
             if user_input == 'y':
                 if not controller.execute_plan(plan[1]): 
                     raise Exception("Execution failed")
-                user_input == 'n'
+
+                user_input = "n"
+                user_input = input("Enter 'y' if dart is ready to shoot")
+                if user_input == 'y':
+                    # open the right gripper
+                    print('Opening and shooting')
+                    right_gripper.open()
+                    rospy.sleep(2.0)
+                else:
+                    user_input = "n"
+
             elif user_input == 'q':
+                user_input = "n"
                 break
-
-            user_input = "n"
-            user_input = input("Enter 'y' if dart is ready to shoot")
-
-            if user_input == 'y':
-                # open the right gripper
-                print('Opening and shooting')
-                right_gripper.open()
-                rospy.sleep(4.0)
-
-            user_input = "n"
 
         except Exception as e:
             print(e)

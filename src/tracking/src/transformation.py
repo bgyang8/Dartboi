@@ -125,30 +125,22 @@ def get_transform(frame1, frame2, traj_dist, max_height):
             #print([rref, pref, yref])
             
             # Arbitrarily chosen 0.5 as distance 
-            x_d = 0.4
+            x_d = 0.5
             # x_d = z - traj_dist #* np.cos(theta)
             y_d = x # - traj_dist * np.sin(theta)
-            z_d = y
+            z_d = y - 1.15
 
-            ### OLD wrong coord transform ###
-            # x_d = x - traj_dist * np.cos(theta)
-            # y_d = y
-            # z_d = z - traj_dist * np.sin(theta)
-
-            # Old unused 
-            # r_des = 0
-            # p_des = 0
-            # y_des = theta
 
 
             dx = z - 0.4
-            dy = 0
+
+            # This is the height offset (should be negative if we start above the end)
+            dy = -0.5
+
+            # This is the launch velocity
             v0 = 4
 
-
             theta = launch_angle(dx, dy, v0)
-
-
 
             r_des = 0
             p_des = np.pi - theta
@@ -190,11 +182,15 @@ def launch_angle(dx, dy, v0):
     b = dy*g - v0**2
     c = dx**2 + dy**2
     print([a, b, c])
-    t = (-b + np.sqrt(b**2 - 4*a*c))/(2*a)
-
+    t_squared = (-b + np.sqrt(b**2 - 4*a*c))/(2*a)
+    t = np.sqrt(t_squared)
 
 
     theta = np.arccos(dx/(v0*t))
+
+    if theta > np.pi/4:
+        theta = np.pi/2 - theta
+
 
     return theta
 
@@ -243,7 +239,7 @@ if __name__ == '__main__':
     #Replaced by angle as function of distance
     traj_dist = 1  # [meters]
     
-    max_height = 0.9
+    max_height = 1.5
     name = 'ar_transform'
     trans_node(name, frame1, frame2, traj_dist, max_height)
   
