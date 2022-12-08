@@ -124,20 +124,36 @@ def get_transform(frame1, frame2, traj_dist, max_height):
             #print([roll, pitch, yaw])
             #print([rref, pref, yref])
             
-            # What if:
-            # x_d = 0.8
-            x_d = z - traj_dist #* np.cos(theta)
+            # Arbitrarily chosen 0.5 as distance 
+            x_d = 0.4
+            # x_d = z - traj_dist #* np.cos(theta)
             y_d = x # - traj_dist * np.sin(theta)
-            z_d = y + 2
+            z_d = y
 
             ### OLD wrong coord transform ###
             # x_d = x - traj_dist * np.cos(theta)
             # y_d = y
             # z_d = z - traj_dist * np.sin(theta)
-    
+
+            # Old unused 
+            # r_des = 0
+            # p_des = 0
+            # y_des = theta
+
+
+            dx = z - 0.4
+            dy = 0
+            v0 = 4
+
+
+            theta = launch_angle(dx, dy, v0)
+
+
+
             r_des = 0
-            p_des = 0
-            y_des = theta
+            p_des = np.pi - theta
+            y_des = 0
+
     
             # Generate a control command to send to the robot
             launch_twist = Twist()
@@ -163,6 +179,27 @@ def get_transform(frame1, frame2, traj_dist, max_height):
         # Use our rate object to sleep until it is time to publish again
         r.sleep()
   
+
+
+""" Get the launch angle from the x dist, y dist, and initial velocity"""
+def launch_angle(dx, dy, v0):
+    print('dx')
+    print(dx)
+    g = 9.81
+    a = 0.25*(g**2)
+    b = dy*g - v0**2
+    c = dx**2 + dy**2
+    print([a, b, c])
+    t = (-b + np.sqrt(b**2 - 4*a*c))/(2*a)
+
+
+
+    theta = np.arccos(dx/(v0*t))
+
+    return theta
+
+
+
 ""  "Get rpy from Quaternion"""
 def quat_to_rpy(q):
     rpy = [0, 0, 0]
@@ -202,7 +239,10 @@ if __name__ == '__main__':
     #called /turtlebot_controller.
     frame1 = 'base' #'head_camera'
     frame2 = 'ar_marker_0'
-    traj_dist = 3.5  # [meters]
+
+    #Replaced by angle as function of distance
+    traj_dist = 1  # [meters]
+    
     max_height = 0.9
     name = 'ar_transform'
     trans_node(name, frame1, frame2, traj_dist, max_height)

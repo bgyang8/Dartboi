@@ -57,6 +57,8 @@ class PathPlanner(object):
         self._group = moveit_commander.MoveGroupCommander(group_name)
 
         self._group.set_num_planning_attempts(5000)
+        self._group.set_max_acceleration_scaling_factor(0.3)
+        self._group.set_max_velocity_scaling_factor(0.5)
 
         # Set the maximum time MoveIt will try to plan before giving up
         # self._group.set_planning_time(5)

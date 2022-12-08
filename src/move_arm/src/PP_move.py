@@ -12,6 +12,9 @@ import traceback
 from moveit_msgs.msg import OrientationConstraint
 from geometry_msgs.msg import PoseStamped, Twist, Vector3
 
+
+from intera_interface import gripper as robot_gripper
+
 from path_planner import PathPlanner
 
 try:
@@ -25,6 +28,12 @@ def moveArm(target_twist):
     """
 
     # Make sure that you've looked at and understand path_planner.py before starting
+
+    # Close the right gripper
+    right_gripper = robot_gripper.Gripper('right_gripper')
+    print('closing')
+    right_gripper.close()
+    rospy.sleep(1.0)
 
     planner = PathPlanner("right_arm")
 
@@ -40,6 +49,9 @@ def moveArm(target_twist):
     pos_xyz = [target_twist.linear.x, target_twist.linear.y, target_twist.linear.z]
     ori_xyzw = get_quaternion_from_euler(target_twist.angular.x, target_twist.angular.y, target_twist.angular.z)
 
+    print("angle to shoot from")
+    print(target_twist.angular.y)
+
     # Add the obstacle to the planning scene here
     obs = PoseStamped()
     obs.header.frame_id = "base"
@@ -54,7 +66,7 @@ def moveArm(target_twist):
     obs.pose.orientation.y = 0.0
     obs.pose.orientation.z = 0.0
     obs.pose.orientation.w = 1.0
-    planner.add_box_obstacle(np.array([0.4,1.2,0.1]), "aero_andrew", obs)
+    # planner.add_box_obstacle(np.array([0.4,1.2,0.1]), "aero_andrew", obs)
 
     obs2 = PoseStamped()
     obs2.header.frame_id = "base"
@@ -69,7 +81,7 @@ def moveArm(target_twist):
     obs2.pose.orientation.y = 0.0
     obs2.pose.orientation.z = 0.0
     obs2.pose.orientation.w = 1.0
-    planner.add_box_obstacle(np.array([0.1,1.2,1.2]), "big_bryan", obs2)
+    # planner.add_box_obstacle(np.array([0.1,1.2,1.2]), "big_bryan", obs2)
 
 
     # #Create a path constraint for the arm
@@ -101,10 +113,10 @@ def moveArm(target_twist):
             goal.pose.position.y = pos_xyz[1]
             goal.pose.position.z = pos_xyz[2]
 
-            goal.pose.orientation.x = xyzw[0]
-            goal.pose.orientation.y = xyzw[1]
-            goal.pose.orientation.z = xyzw[2]
-            goal.pose.orientation.w = xyzw[3]
+            goal.pose.orientation.x = xyzw[0] + 0.000001
+            goal.pose.orientation.y = xyzw[1] + 0.000001
+            goal.pose.orientation.z = xyzw[2] + 0.000001
+            goal.pose.orientation.w = xyzw[3] + 0.000001
 
             # goal.pose.orientation.x = 0.0
             # goal.pose.orientation.y = 1.0
@@ -119,8 +131,21 @@ def moveArm(target_twist):
             if user_input == 'y':
                 if not controller.execute_plan(plan[1]): 
                     raise Exception("Execution failed")
+                user_input == 'n'
             elif user_input == 'q':
                 break
+
+            user_input = "n"
+            user_input = input("Enter 'y' if dart is ready to shoot")
+
+            if user_input == 'y':
+                # open the right gripper
+                print('Opening and shooting')
+                right_gripper.open()
+                rospy.sleep(4.0)
+
+            user_input = "n"
+
         except Exception as e:
             print(e)
             traceback.print_exc()
