@@ -105,22 +105,17 @@ def get_transform(frame1, frame2, traj_dist, max_height):
 
             quat = trans.transform.rotation
     
-            roll, pitch, yaw = quat_to_rpy(quat)
-        
-            # Testing direction
-            # print('R: ', roll / np.pi * 180)
-            # print('P: ', pitch / np.pi * 180)
-            # print('Y: ', yaw / np.pi * 180)
+            # roll, pitch, yaw = quat_to_rpy(quat)
     
-            # Experimentally, PITCH is the horizontal "yaw" of the target
-            # Flat is 0 deg, ccw is positive, cw is negative
-            theta = yaw
+            # # Experimentally, PITCH is the horizontal "yaw" of the target
+            # # Flat is 0 deg, ccw is positive, cw is negative
+            # theta = yaw
             
             # Arbitrarily chosen 0.5 as distance 
             x_d = 0.5
             # x_d = z - traj_dist #* np.cos(theta)
             y_d = x # - traj_dist * np.sin(theta)
-            z_d = y - 1.2
+            z_d = y - 1.18
 
             dx = z - x_d
 
@@ -132,8 +127,11 @@ def get_transform(frame1, frame2, traj_dist, max_height):
 
             theta = launch_angle(dx, dy, v0)
 
-            r_des = 0
+            # Rotational offset
+            r_des = np.pi/2
+            # Up-down pitch offset
             p_des = np.pi - theta
+            # Left right yaw offset
             y_des = -np.pi/30
 
             print([x,y,z])
@@ -164,7 +162,6 @@ def get_transform(frame1, frame2, traj_dist, max_height):
         r.sleep()
   
 
-
 """ Get the launch angle from the x dist, y dist, and initial velocity"""
 def launch_angle(dx, dy, v0):
     # print('dx')
@@ -177,15 +174,11 @@ def launch_angle(dx, dy, v0):
     t_squared = (-b + np.sqrt(b**2 - 4*a*c))/(2*a)
     t = np.sqrt(t_squared)
 
-
     theta = np.arccos(dx/(v0*t))
-
     if theta > np.pi/4:
         theta = np.pi/2 - theta
 
-
     return theta
-
 
 
 ""  "Get rpy from Quaternion"""
@@ -220,17 +213,9 @@ def trans_node(name, frame1, frame2, traj_dist, max_height, anonymous=True):
 
       
 if __name__ == '__main__':
-    # Check if the node has received a signal to shut down
-    # If not, run the talker method
-  
-    #Run this program as a new node in the ROS computation graph 
-    #called /turtlebot_controller.
     frame1 = 'base' #'head_camera'
     frame2 = 'ar_marker_0'
-
-    #Replaced by angle as function of distance
     traj_dist = 1  # [meters]
-    
     max_height = 1.5
     name = 'ar_transform'
     trans_node(name, frame1, frame2, traj_dist, max_height)

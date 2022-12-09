@@ -55,7 +55,7 @@ def moveArm(target_twist):
     obs.pose.orientation.y = 0.0
     obs.pose.orientation.z = 0.0
     obs.pose.orientation.w = 1.0
-    planner.add_box_obstacle(np.array([0.4,1.2,0.1]), "aero_andrew", obs)
+    planner.add_box_obstacle(np.array([0.4,1.2,0.2]), "aero_andrew", obs)
 
     obs2 = PoseStamped()
     obs2.header.frame_id = "base"
