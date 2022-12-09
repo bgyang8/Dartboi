@@ -34,8 +34,7 @@ def moveArm(target_twist):
 
     controller = Controller(Kp, Kd, Ki, Kw, Limb("right"))
 
-    print(target_twist.linear)
-    print(target_twist.angular)
+    print(target_twist)
     pos_xyz = [target_twist.linear.x, target_twist.linear.y, target_twist.linear.z]
     ori_xyzw = get_quaternion_from_euler(target_twist.angular.x, target_twist.angular.y, target_twist.angular.z)
 
@@ -56,7 +55,7 @@ def moveArm(target_twist):
     obs.pose.orientation.y = 0.0
     obs.pose.orientation.z = 0.0
     obs.pose.orientation.w = 1.0
-    # planner.add_box_obstacle(np.array([0.4,1.2,0.1]), "aero_andrew", obs)
+    planner.add_box_obstacle(np.array([0.4,1.2,0.1]), "aero_andrew", obs)
 
     obs2 = PoseStamped()
     obs2.header.frame_id = "base"
@@ -73,24 +72,6 @@ def moveArm(target_twist):
     obs2.pose.orientation.w = 1.0
     # planner.add_box_obstacle(np.array([0.1,1.2,1.2]), "big_bryan", obs2)
 
-
-    # #Create a path constraint for the arm
-    # #UNCOMMENT FOR THE ORIENTATION CONSTRAINTS PART
-    orien_const = OrientationConstraint()
-    orien_const.link_name = "right_gripper_tip"
-    orien_const.header.frame_id = "base"
-    orien_const.orientation.y = -1.0
-    orien_const.absolute_x_axis_tolerance = 0.5
-    orien_const.absolute_y_axis_tolerance = 0.5
-    orien_const.absolute_z_axis_tolerance = 0.5
-    orien_const.weight = 1.0
-
-    roll = 0
-    pitch = target_twist.angular.y
-    yaw = -np.pi/60
-
-    xyzw = get_quaternion_from_euler(roll, pitch, yaw)
-
     user_input = 'n'
 
     while not rospy.is_shutdown():
@@ -103,19 +84,11 @@ def moveArm(target_twist):
             goal.pose.position.y = pos_xyz[1]
             goal.pose.position.z = pos_xyz[2]
 
-            goal.pose.orientation.x = xyzw[0] + 0.000001
-            goal.pose.orientation.y = xyzw[1] + 0.000001
-            goal.pose.orientation.z = xyzw[2] + 0.000001
-            goal.pose.orientation.w = xyzw[3] + 0.000001
+            goal.pose.orientation.x = ori_xyzw[0] + 0.000001
+            goal.pose.orientation.y = ori_xyzw[1] + 0.000001
+            goal.pose.orientation.z = ori_xyzw[2] + 0.000001
+            goal.pose.orientation.w = ori_xyzw[3] + 0.000001
 
-            # goal.pose.orientation.x = 0.0
-            # goal.pose.orientation.y = 1.0
-            # goal.pose.orientation.z = 0.0
-            # goal.pose.orientation.w = 0.0
-
-
-            # NOTE!
-            #plan = planner.plan_to_pose(goal, [orien_const])
             plan = planner.plan_to_pose(goal, [])
             user_input = input("Enter 'y' if the trajectory looks safe on RVIZ")
             if user_input == 'y':

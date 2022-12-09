@@ -46,11 +46,12 @@ def get_transform(frame1, frame2, traj_dist, max_height):
             y = trans.transform.translation.y
             z = trans.transform.translation.z
 
-            if y >= max_height:
-                print(y)
-            
+            if y >= max_height or y < 0:
+                continue
+
             if i % 50 == 0 :
                 print(i)
+                print(f'SetPoint: {x, y, z}')
 
             x_ref += x / num_samples
             y_ref += y / num_samples
@@ -85,11 +86,6 @@ def get_transform(frame1, frame2, traj_dist, max_height):
         try:
             # The transform of the target with respect to the head camera
             trans = tfBuffer.lookup_transform(frame2, frame1, rospy.Time())
-            # trans_ref = tfBuffer.lookup_transform('head_camera', 'base', rospy.Time())
-
-            # quat_ref = trans_ref.transform.rotation
-
-            # rref, pref, yref = quat_to_rpy(quat_ref)
             
             # Process trans to get your state error
             x = trans.transform.translation.x
@@ -120,19 +116,13 @@ def get_transform(frame1, frame2, traj_dist, max_height):
             # Flat is 0 deg, ccw is positive, cw is negative
             theta = yaw
             
-            print([x,y,z,theta])
-            #print([roll, pitch, yaw])
-            #print([rref, pref, yref])
-            
             # Arbitrarily chosen 0.5 as distance 
             x_d = 0.5
             # x_d = z - traj_dist #* np.cos(theta)
             y_d = x # - traj_dist * np.sin(theta)
-            z_d = y - 1.15
+            z_d = y - 1.2
 
-
-
-            dx = z - 0.4
+            dx = z - x_d
 
             # This is the height offset (should be negative if we start above the end)
             dy = -0.5
@@ -144,9 +134,11 @@ def get_transform(frame1, frame2, traj_dist, max_height):
 
             r_des = 0
             p_des = np.pi - theta
-            y_des = 0
+            y_des = -np.pi/30
 
-    
+            print([x,y,z])
+            print([r_des, p_des, y_des])
+
             # Generate a control command to send to the robot
             launch_twist = Twist()
             launch_twist.linear.x = x_d
@@ -175,13 +167,13 @@ def get_transform(frame1, frame2, traj_dist, max_height):
 
 """ Get the launch angle from the x dist, y dist, and initial velocity"""
 def launch_angle(dx, dy, v0):
-    print('dx')
-    print(dx)
+    # print('dx')
+    # print(dx)
     g = 9.81
     a = 0.25*(g**2)
     b = dy*g - v0**2
     c = dx**2 + dy**2
-    print([a, b, c])
+    # print([a, b, c])
     t_squared = (-b + np.sqrt(b**2 - 4*a*c))/(2*a)
     t = np.sqrt(t_squared)
 

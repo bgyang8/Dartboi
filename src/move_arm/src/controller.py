@@ -97,7 +97,7 @@ class Controller(object):
         self._limb.set_joint_velocities(dic_vel)
         rospy.sleep(0.1)
 
-    def execute_plan(self, path, timeout=100.0, log=True):
+    def execute_plan(self, path, timeout=100.0, log=False):
         """
         Execute a given path
 
