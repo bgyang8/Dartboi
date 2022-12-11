@@ -1,0 +1,296 @@
+{
+    "params": {
+        "engine_params": {
+            "autoEnroll": true,
+            "configurable": false
+        },
+        "fps": 10,
+        "height": 800,
+        "image_path": "package://camera_io/images/ienso",
+        "image_source_id": "ienso_ethernet:FE:48:EB:58:03:69",
+        "sim_image": "Fiducials_marker1.png",
+        "tcp_port": 8901,
+        "width": 1280
+    },
+    "ports": {
+        "set_camera_resolution": {
+            "params": {
+                "do_not_force": true
+            },
+            "props": {
+                "format": {
+                    "role": "sink",
+                    "type": "object"
+                },
+                "owner": "device",
+                "rev": 1,
+                "type": "CameraResolution"
+            }
+        },
+        "set_camera_stream_state": {
+            "params": {
+                "control": "streaming"
+            },
+            "props": {
+                "format": {
+                    "role": "sink",
+                    "type": "bool"
+                },
+                "owner": "device",
+                "rev": 1,
+                "type": "ControlOnOff"
+            }
+        },
+        "set_exposure": {
+            "params": {
+                "control": "exposure"
+            },
+            "props": {
+                "format": {
+                    "data_type": "i16",
+                    "role": "sink",
+                    "type": "int"
+                },
+                "owner": "device",
+                "rev": 1,
+                "type": "ControlMode"
+            }
+        },
+        "set_flip": {
+            "params": {
+                "control": "flip"
+            },
+            "props": {
+                "format": {
+                    "role": "sink",
+                    "type": "bool"
+                },
+                "owner": "device",
+                "rev": 1,
+                "type": "ControlOnOff"
+            }
+        },
+        "set_gain": {
+            "params": {
+                "control": "gain"
+            },
+            "props": {
+                "format": {
+                    "data_type": "i16",
+                    "role": "sink",
+                    "type": "int"
+                },
+                "owner": "device",
+                "rev": 1,
+                "type": "ControlMode"
+            }
+        },
+        "set_mirror": {
+            "params": {
+                "control": "mirror"
+            },
+            "props": {
+                "format": {
+                    "role": "sink",
+                    "type": "bool"
+                },
+                "owner": "device",
+                "rev": 1,
+                "type": "ControlOnOff"
+            }
+        },
+        "set_window_x": {
+            "params": {
+                "control": "window_x"
+            },
+            "props": {
+                "format": {
+                    "data_type": "u16",
+                    "role": "sink",
+                    "type": "int"
+                },
+                "owner": "device",
+                "rev": 1,
+                "type": "ControlValue"
+            }
+        },
+        "set_window_y": {
+            "params": {
+                "control": "window_y"
+            },
+            "props": {
+                "format": {
+                    "data_type": "u16",
+                    "role": "sink",
+                    "type": "int"
+                },
+                "owner": "device",
+                "rev": 1,
+                "type": "ControlValue"
+            }
+        }
+    },
+    "props": {
+        "name": "IensoCamera",
+        "owner": "device",
+        "rev": 1,
+        "type": "IensoCameraDevice"
+    },
+    "signals": {
+        "camera_streaming": {
+            "params": {
+                "default": [
+                    false
+                ]
+            },
+            "props": {
+                "format": {
+                    "role": "output",
+                    "type": "bool"
+                },
+                "owner": "device",
+                "rev": 1,
+                "sink": "set_camera_stream_state",
+                "type": "IO"
+            }
+        },
+        "resolution": {
+            "params": {
+                "default": [
+                    {
+                        "height": 800,
+                        "width": 1280
+                    }
+                ]
+            },
+            "props": {
+                "format": {
+                    "role": "output",
+                    "type": "object"
+                },
+                "owner": "device",
+                "rev": 1,
+                "sink": "set_camera_resolution",
+                "type": "IO"
+            }
+        },
+        "set_exposure": {
+            "params": {
+                "default": [
+                    -1
+                ],
+                "range": {
+                    "max": [
+                        100
+                    ],
+                    "min": [
+                        -1
+                    ]
+                }
+            },
+            "props": {
+                "format": {
+                    "role": "output",
+                    "type": "int"
+                },
+                "owner": "device",
+                "rev": 1,
+                "sink": "set_exposure",
+                "type": "RangedIO"
+            }
+        },
+        "set_flip": {
+            "params": {
+                "default": [
+                    false
+                ]
+            },
+            "props": {
+                "format": {
+                    "role": "output",
+                    "type": "bool"
+                },
+                "owner": "device",
+                "rev": 1,
+                "sink": "set_flip",
+                "type": "IO"
+            }
+        },
+        "set_gain": {
+            "params": {
+                "default": [
+                    0
+                ],
+                "range": {
+                    "max": [
+                        79
+                    ],
+                    "min": [
+                        -1
+                    ]
+                }
+            },
+            "props": {
+                "format": {
+                    "role": "output",
+                    "type": "int"
+                },
+                "owner": "device",
+                "rev": 1,
+                "sink": "set_gain",
+                "type": "RangedIO"
+            }
+        },
+        "set_mirror": {
+            "params": {
+                "default": [
+                    false
+                ]
+            },
+            "props": {
+                "format": {
+                    "role": "output",
+                    "type": "bool"
+                },
+                "owner": "device",
+                "rev": 1,
+                "sink": "set_mirror",
+                "type": "IO"
+            }
+        },
+        "set_window_x": {
+            "params": {
+                "default": [
+                    0
+                ]
+            },
+            "props": {
+                "format": {
+                    "role": "output",
+                    "type": "int"
+                },
+                "owner": "device",
+                "rev": 1,
+                "sink": "set_window_x",
+                "type": "IO"
+            }
+        },
+        "set_window_y": {
+            "params": {
+                "default": [
+                    0
+                ]
+            },
+            "props": {
+                "format": {
+                    "role": "output",
+                    "type": "int"
+                },
+                "owner": "device",
+                "rev": 1,
+                "sink": "set_window_y",
+                "type": "IO"
+            }
+        }
+    }
+}

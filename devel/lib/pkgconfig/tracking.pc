@@ -1,0 +1,8 @@
+prefix=/home/cc/ee106a/fa22/class/ee106a-abl/Dartboi/devel
+
+Name: tracking
+Description: Description of tracking
+Version: 0.0.0
+Cflags: 
+Libs: -L${prefix}/lib 
+Requires: 

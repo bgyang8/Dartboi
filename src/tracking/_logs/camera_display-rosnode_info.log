@@ -1,0 +1,60 @@
+--------------------------------------------------------------------------------
+Node [/camera_display_1925989_1669760972402]
+Publications: 
+ * /io/internal_camera/head_camera/command [intera_core_msgs/IOComponentCommand]
+ * /io/internal_camera/right_hand_camera/command [intera_core_msgs/IOComponentCommand]
+ * /rosout [rosgraph_msgs/Log]
+
+Subscriptions: 
+ * /io/internal_camera/config [intera_core_msgs/IONodeConfiguration]
+ * /io/internal_camera/head_camera/config [intera_core_msgs/IODeviceConfiguration]
+ * /io/internal_camera/head_camera/image_raw [sensor_msgs/Image]
+ * /io/internal_camera/head_camera/state [intera_core_msgs/IODeviceStatus]
+ * /io/internal_camera/right_hand_camera/config [intera_core_msgs/IODeviceConfiguration]
+ * /io/internal_camera/right_hand_camera/state [intera_core_msgs/IODeviceStatus]
+
+Services: 
+ * /camera_display_1925989_1669760972402/get_loggers
+ * /camera_display_1925989_1669760972402/set_logger_level
+
+
+contacting node http://192.168.1.6:37551/ ...
+Pid: 1925989
+Connections:
+ * topic: /rosout
+    * to: /rosout
+    * direction: outbound (34815 - 192.168.1.103:48510) [7]
+    * transport: TCPROS
+ * topic: /io/internal_camera/head_camera/command
+    * to: /internal_camera_io
+    * direction: outbound (34815 - 192.168.1.103:48511) [24]
+    * transport: TCPROS
+ * topic: /io/internal_camera/right_hand_camera/command
+    * to: /internal_camera_io
+    * direction: outbound (34815 - 192.168.1.103:48512) [20]
+    * transport: TCPROS
+ * topic: /io/internal_camera/config
+    * to: /internal_camera_io (http://azula:41334/)
+    * direction: inbound
+    * transport: TCPROS
+ * topic: /io/internal_camera/head_camera/config
+    * to: /internal_camera_io (http://azula:41334/)
+    * direction: inbound
+    * transport: TCPROS
+ * topic: /io/internal_camera/head_camera/state
+    * to: /internal_camera_io (http://azula:41334/)
+    * direction: inbound
+    * transport: TCPROS
+ * topic: /io/internal_camera/right_hand_camera/config
+    * to: /internal_camera_io (http://azula:41334/)
+    * direction: inbound
+    * transport: TCPROS
+ * topic: /io/internal_camera/right_hand_camera/state
+    * to: /internal_camera_io (http://azula:41334/)
+    * direction: inbound
+    * transport: TCPROS
+ * topic: /io/internal_camera/head_camera/image_raw
+    * to: /internal_camera_io (http://azula:41334/)
+    * direction: inbound
+    * transport: TCPROS
+
