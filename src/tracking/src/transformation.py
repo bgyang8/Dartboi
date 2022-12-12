@@ -33,7 +33,7 @@ def get_transform(frame1, frame2, traj_dist, max_height):
     ############################## Making Reference ##############################
     r = rospy.Rate(100) # 100hz
     
-    num_samples = 750
+    num_samples = 250
     i = 0
     x_ref = 0
     y_ref = 0
@@ -78,6 +78,10 @@ def get_transform(frame1, frame2, traj_dist, max_height):
     
     print(f'REFERENCE: {x_ref, y_ref, z_ref}')
     # time.sleep(5)
+
+    ##############################
+    return  # TODO: delete later #
+    ##############################
 
     epsilon = 0.2
     r = rospy.Rate(10) # 10hz
