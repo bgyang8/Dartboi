@@ -14,7 +14,7 @@ from geometry_msgs.msg import Twist, Vector3
 
 import time
 
-from geometry_msgs.msg import Twist
+# from geometry_msgs.msg import Twist
 
 def get_transform(frame1, frame2, traj_dist, max_height):
     """
@@ -80,7 +80,7 @@ def get_transform(frame1, frame2, traj_dist, max_height):
     # time.sleep(5)
 
     ##############################
-    return  # TODO: delete later #
+    # return  # TODO: delete later #
     ##############################
 
     epsilon = 0.2
@@ -109,61 +109,72 @@ def get_transform(frame1, frame2, traj_dist, max_height):
 
             quat = trans.transform.rotation
     
-            # roll, pitch, yaw = quat_to_rpy(quat)
-    
-            # # Experimentally, PITCH is the horizontal "yaw" of the target
-            # # Flat is 0 deg, ccw is positive, cw is negative
-            # theta = yaw
-            
-            # Arbitrarily chosen 0.5 as distance 
-            x_d = 0.5
-            # x_d = z - traj_dist #* np.cos(theta)
-            y_d = x # - traj_dist * np.sin(theta)
-            z_d = y - 1.18
-
-            dx = z - x_d
-
-            # This is the height offset (should be negative if we start above the end)
-            dy = -0.5
-
-            # This is the launch velocity
-            v0 = 4
-
-            theta = launch_angle(dx, dy, v0)
-
-            # Rotational offset
-            r_des = np.pi/2
-            # Up-down pitch offset
-            p_des = np.pi - theta
-            # Left right yaw offset
-            y_des = -np.pi/30
-
-            print([x,y,z])
-            print([r_des, p_des, y_des])
-
-            # Generate a control command to send to the robot
-            launch_twist = Twist()
-            launch_twist.linear.x = x_d
-            launch_twist.linear.y = y_d
-            launch_twist.linear.z = z_d
-            launch_twist.angular.x = r_des
-            launch_twist.angular.y = p_des
-            launch_twist.angular.z = y_des
-            # launch_twist.linear.x = 0.5   #NOTE
-            # launch_twist.linear.y = 0.5   #NOTE
-            # launch_twist.linear.z = 0     #NOTE
-            # launch_twist.angular.x = 0    #NOTE
-            # launch_twist.angular.y = 0    #NOTE
-            # launch_twist.angular.z = 0    #NOTE
-            
-            pub.publish(launch_twist)
-            print(launch_twist)
-  
+            ##########
+            trajectory_from_xyz(x, y, z, traj_dist)
         except (tf2_ros.LookupException, tf2_ros.ConnectivityException, tf2_ros.ExtrapolationException):
             pass
-        
+
         # Use our rate object to sleep until it is time to publish again
         r.sleep()
+
+def trajectory_from_xyz(x, y, z, traj_dist):
+    pub = rospy.Publisher('launch_des', Twist, queue_size=10)
+
+    # roll, pitch, yaw = quat_to_rpy(quat)
+
+    # # Experimentally, PITCH is the horizontal "yaw" of the target
+    # # Flat is 0 deg, ccw is positive, cw is negative
+    # theta = yaw
+    
+    # Arbitrarily chosen 0.5 as distance 
+    x_d = 0.5
+    # x_d = z - traj_dist #* np.cos(theta)
+    y_d = -x # - traj_dist * np.sin(theta)
+    # z_d = y - 1.18
+    z_d = y
+
+
+    dx = z - x_d
+
+    # This is the height offset (should be negative if we start above the end)
+    # dy = -0.5
+    dy = 0
+
+    # This is the launch velocity
+    v0 = 4
+
+    theta = launch_angle(dx, dy, v0)
+
+    # Rotational offset
+    # r_des = np.pi/2\
+    r_des = 0
+    # Up-down pitch offset
+    p_des = np.pi - theta
+    # Left right yaw offset
+    y_des = -np.pi/30
+
+    print([x,y,z])
+    print([r_des, p_des, y_des])
+
+    # Generate a control command to send to the robot
+    launch_twist = Twist()
+    launch_twist.linear.x = x_d
+    launch_twist.linear.y = y_d
+    launch_twist.linear.z = z_d
+    launch_twist.angular.x = r_des
+    launch_twist.angular.y = p_des
+    launch_twist.angular.z = y_des
+    # launch_twist.linear.x = 0.5   #NOTE
+    # launch_twist.linear.y = 0.5   #NOTE
+    # launch_twist.linear.z = 0     #NOTE
+    # launch_twist.angular.x = 0    #NOTE
+    # launch_twist.angular.y = 0    #NOTE
+    # launch_twist.angular.z = 0    #NOTE
+    
+    pub.publish(launch_twist)
+    print(launch_twist)
+
+
   
 
 """ Get the launch angle from the x dist, y dist, and initial velocity"""
@@ -215,12 +226,44 @@ def trans_node(name, frame1, frame2, traj_dist, max_height, anonymous=True):
     except rospy.ROSInterruptException:
         pass
 
+
+def listener(traj_dist,max_height):
+    rospy.Subscriber('circle_transform', Twist, lambda twist: circle_trans_node(twist, traj_dist, max_height))
+    rospy.spin()
       
+
+def circle_trans_node(circle_twist, traj_dist, max_height):
+    x = circle_twist.linear.x
+    y = circle_twist.linear.y
+    z = circle_twist.linear.z
+    # while not rospy.is_shutdown():
+    if y >= max_height or y < -0.2:
+        print("Invalid height",y)
+        return
+    try:
+        trajectory_from_xyz(x, y, z, traj_dist)
+        print("Published trajectory")
+    except (tf2_ros.LookupException, tf2_ros.ConnectivityException, tf2_ros.ExtrapolationException):
+        print("failed")
+        pass
+    print("Done")
+
+        # Use our rate object to sleep until it is time to publish again
+        # r.sleep()
+
+
+
+# if __name__ == '__main__':
+#     frame1 = 'base' #'head_camera'
+#     frame2 = 'ar_marker_0'
+#     traj_dist = 1  # [meters]
+#     max_height = 1.5
+#     name = 'ar_transform'
+#     trans_node(name, frame1, frame2, traj_dist, max_height)
+
 if __name__ == '__main__':
-    frame1 = 'base' #'head_camera'
-    frame2 = 'ar_marker_0'
     traj_dist = 1  # [meters]
     max_height = 1.5
-    name = 'ar_transform'
-    trans_node(name, frame1, frame2, traj_dist, max_height)
-  
+    rospy.init_node('circle_transformer', anonymous=True)
+    print("Listening for Circle Transforms")
+    listener(traj_dist,max_height)

@@ -6,20 +6,26 @@ from cv_bridge import CvBridge, CvBridgeError
 from sensor_msgs.msg import Image, CameraInfo
 import message_filters
 import rospy
+import time
+from geometry_msgs.msg import Twist, Vector3
 
 from transformation import get_transform
 
-DIST_RADIUS_SLOPE = -0.0469
-DIST_RADIUS_OFFSET = 4.14
+DIST_RADIUS_SLOPE = -0.0268#-0.0469
+DIST_RADIUS_OFFSET = 2.876 #  4.14
 
-X_SCALE_SLOPE = 0.347
-X_SCALE_OFFSET = 0.944
+X_SCALE_SLOPE = 1
+X_SCALE_OFFSET = 0
 
 Y_SCALE_SLOPE = -1.9
-Y_SCALE_OFFSET = 3.6
+Y_SCALE_OFFSET = -0.74
 
 
 def img_callback(image_head, camera_info):
+
+	pub = rospy.Publisher('circle_transform', Twist, queue_size=10)
+
+
 	# print(type(camera_info))
 
 	bridge = CvBridge()
@@ -28,29 +34,50 @@ def img_callback(image_head, camera_info):
 
 	try:
 		cv_image = bridge.imgmsg_to_cv2(image_head, 'mono8')
+		# cv_image = bridge.imgmsg_to_cv2(image_head, 'bgr8')
+
+		# cv_image = cv.cvtColor(cv_image, cv.COLOR_BGR2RGB)
+
 	except CvBridgeError as e:
 		print(e)
 	
-	# print(cv_image.shape)
-	cv.imshow("Head Image window", cv_image)
+	# cv_image[:,:,0] = 0
+	# cv_image[:,:,1] = 0
+	# red_img = cv_image[:,:,2]
+	# a,red_img = cv.threshold(cv_image[:,:,2], 90,255,cv.THRESH_TOZERO)
+	# cv_image[:,:,2] = red_img
+
+	_,thresh = cv.threshold(cv_image,40,255,cv.THRESH_TOZERO)
+	# _,thresh = cv.threshold(cv_image,0,200,cv.THRESH_TOZERO_INV)
+	thresh[thresh>180] = 255;
+
+	# print(cv_image[100,100,:])
+	# # print(cv_image.shape)
+	cv.imshow("Head Image window" ,thresh)
+	# cv.imshow("Head Image window 2", cv_image[:,:,1])
+	# cv.imshow("Head Image window 3", cv_image[:,:,2])
+	# cv.waitKey(50)
+
+	# time.sleep(30)
 	# gray_image = cv.cvtColor(cv_image, cv.COLOR_BGR2GRAY)
-	cur_image_head = cv_image
-	# cv.waitKey(3)
+	cur_image_head = thresh
+	# print("yhere")
+
 
 	########################### CIRCLES ########################
 	# Example code values
 
 	N = 10
-	averaged_radius = 0
 	averaged_x = 0
 	averaged_y = 0
 
-	max_radii = []
+	all_radii = []
 
+	
 
 	for i in range(N):
 		
-		circles = get_circles(cur_image_head, 70, [10, 80], [100, 30])
+		circles = get_circles(cur_image_head, 70, [20, 70], [60,40])
 
 		if circles is not None:
 			# print('found circles')
@@ -61,24 +88,44 @@ def img_callback(image_head, camera_info):
 				cv.circle(cur_image_head, center, 1, (0, 100, 100), 3)
 				# circle outline
 				radius = i[2]
-				cv.circle(cur_image_head, center, radius, (255, 0, 255), 3)
+				cv.circle(cur_image_head, center, radius, (255, 0, 255), 1)
 
 			circle = circles[0][0]
 
 			averaged_x += circle[0]/N
 			averaged_y += circle[1]/N
-			averaged_radius += circle[2]/N
-			max_radii.append(circle[2])
+			all_radii.append(circle[2])
 
-	max_radius = max(max_radii)
-	print('radius')
-	print(averaged_radius)
-	print(max_radius)
-	print(get_coords_from_circle(averaged_x, averaged_y, max_radius, K_matrix))
-		# print(get_coords_from_circle(circle[0], circle[1], circle[2], K_matrix))
+	if all_radii:
+		max_radius = max(all_radii)
+		min_radius = min(all_radii)
+		avg_radius = np.mean(all_radii)
+		median_radius = np.median(all_radii)
 
-	cv.imshow("detected circles", cur_image_head)
-	
+		cv.circle(cur_image_head, (int(averaged_x), int(averaged_y)), 0, (255, 0, 0), 3)
+
+
+		# print('radius')
+		print(min_radius, max_radius,avg_radius,median_radius)
+		# print(averaged_radius)
+		# print(max_radius)
+		coords = get_coords_from_circle(averaged_x, averaged_y, avg_radius, K_matrix)
+
+		print(coords)
+			# print(get_coords_from_circle(circle[0], circle[1], circle[2], K_matrix))
+
+		cv.imshow("detected circles", cur_image_head)	
+
+
+		#####PUBLISH CODE:
+		circle_twist = Twist()
+		circle_twist.linear.x = coords[0]
+		circle_twist.linear.y = coords[1]
+		circle_twist.linear.z = coords[2]
+		circle_twist.angular.x = 0
+		circle_twist.angular.y = 0
+		circle_twist.angular.z = 0
+		pub.publish(circle_twist)
 
 
 	# traj_dist = 1  # [meters]
@@ -90,20 +137,20 @@ def img_callback(image_head, camera_info):
 
 
 def get_coords_from_circle(x, y, radius, K):
-
+	# print(np.linalg.inv(K))
 	lam = DIST_RADIUS_SLOPE * radius + DIST_RADIUS_OFFSET
 
 	# print('dist')
 	# print(lam)
-	uv1 = np.array([x, y, 1]).reshape((1,3))
+	uv1 = np.array([x, y, 1]).reshape((3,1))
 
-	coords = (lam*uv1)@np.linalg.inv(K)
+	coords = np.linalg.inv(K)@(lam*uv1)
 	# print(coords)
 
-	coords = coords[0]
+	# coords = coords[0]
 	coords[0] = X_SCALE_SLOPE * coords[0] + X_SCALE_OFFSET
 	coords[1] = Y_SCALE_SLOPE * coords[1] + Y_SCALE_OFFSET
-	coords[2] = lam
+	# coords[2] = coords[2]
 
 	return coords
 
@@ -115,8 +162,12 @@ def get_circles(img, threshold, minmax, cannythresh):
 	 		minmax -- tuple smallest and largest circles to detect
 	 		minmax -- tuple thresholds of canny edge detector
 	"""
-
+	if len(img.shape) == 3:
+		img = img[:, :, 2]
 	gray = img
+	# print(gray.shape)
+	# cv.imshow("hm",gray)
+	# cv.waitKey(30)
 
 	# for i in range(len(img)):
 	# 	for j in range(len(img[0])):
@@ -136,6 +187,7 @@ def get_circles(img, threshold, minmax, cannythresh):
                                param1=cannythresh[0], param2=cannythresh[1],
                                minRadius=minmax[0], maxRadius=minmax[1])
 
+	# print(len(circles))
 	return circles
 
 if __name__ == "__main__":	

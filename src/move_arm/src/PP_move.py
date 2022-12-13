@@ -24,6 +24,7 @@ except ImportError:
     
 def moveArm(target_twist):
 
+    print("callback called back")
     right_gripper = robot_gripper.Gripper('right_gripper')
     planner = PathPlanner("right_arm")
 
