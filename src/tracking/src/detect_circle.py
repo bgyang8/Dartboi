@@ -31,6 +31,8 @@ def img_callback(image_head, camera_info):
 	bridge = CvBridge()
 
 	K_matrix = np.reshape(camera_info.K, (3, 3))
+	# K_matrix = np.eye(3)
+
 
 	try:
 		cv_image = bridge.imgmsg_to_cv2(image_head, 'mono8')
@@ -132,7 +134,7 @@ def img_callback(image_head, camera_info):
 	# head_camera_frame = 'head_camera'
 	# circle_frame = ... # TODO: find frame of circle center
 	# get_transform(head_camera_frame, circle_frame, traj_dist)
-	
+	print('ready')
 	cv.waitKey(0)
 
 
@@ -196,6 +198,7 @@ if __name__ == "__main__":
 	camera_info_head = message_filters.Subscriber("/io/internal_camera/head_camera/camera_info", CameraInfo)
 
 	ts = message_filters.TimeSynchronizer([image_sub_head, camera_info_head], 10)
+	# ts = message_filters.TimeSynchronizer([image_sub_head], 10)
 	ts.registerCallback(img_callback)
 	print("finished setup")
 	

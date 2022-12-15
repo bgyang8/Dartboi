@@ -75,6 +75,9 @@ def moveArm(target_twist):
 
     user_input = 'n'
 
+    if user_input == "n":
+        return
+
     while not rospy.is_shutdown():
         try:
             goal = PoseStamped()

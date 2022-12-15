@@ -141,17 +141,18 @@ def trajectory_from_xyz(x, y, z, traj_dist):
     dy = 0
 
     # This is the launch velocity
-    v0 = 4
+    v0 = 5.5
 
     theta = launch_angle(dx, dy, v0)
 
     # Rotational offset
-    # r_des = np.pi/2\
+    # r_des = np.pi/2
     r_des = 0
     # Up-down pitch offset
     p_des = np.pi - theta
     # Left right yaw offset
-    y_des = -np.pi/30
+    y_des = -np.pi/40
+
 
     print([x,y,z])
     print([r_des, p_des, y_des])
