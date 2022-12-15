@@ -56,7 +56,7 @@ def moveArm(target_twist):
     obs.pose.orientation.y = 0.0
     obs.pose.orientation.z = 0.0
     obs.pose.orientation.w = 1.0
-    planner.add_box_obstacle(np.array([0.4,1.2,0.2]), "aero_andrew", obs)
+    # planner.add_box_obstacle(np.array([0.4,1.2,0.2]), "aero_andrew", obs)
 
     obs2 = PoseStamped()
     obs2.header.frame_id = "base"
@@ -75,6 +75,7 @@ def moveArm(target_twist):
 
     user_input = 'n'
 
+    user_input = input("Enter 'y' if circle")
     if user_input == "n":
         return
 
