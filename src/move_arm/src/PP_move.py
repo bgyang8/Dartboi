@@ -24,6 +24,7 @@ except ImportError:
     
 def moveArm(target_twist):
 
+    print("callback called back")
     right_gripper = robot_gripper.Gripper('right_gripper')
     planner = PathPlanner("right_arm")
 
@@ -55,7 +56,7 @@ def moveArm(target_twist):
     obs.pose.orientation.y = 0.0
     obs.pose.orientation.z = 0.0
     obs.pose.orientation.w = 1.0
-    planner.add_box_obstacle(np.array([0.4,1.2,0.2]), "aero_andrew", obs)
+    # planner.add_box_obstacle(np.array([0.4,1.2,0.2]), "aero_andrew", obs)
 
     obs2 = PoseStamped()
     obs2.header.frame_id = "base"
@@ -73,6 +74,10 @@ def moveArm(target_twist):
     # planner.add_box_obstacle(np.array([0.1,1.2,1.2]), "big_bryan", obs2)
 
     user_input = 'n'
+
+    user_input = input("Enter 'y' if circle")
+    if user_input == "n":
+        return
 
     while not rospy.is_shutdown():
         try:
